@@ -2,13 +2,16 @@ package net.guides.springboot2.springboot2webappjsp.controllers;
 import org.springframework.util.DigestUtils;
 import net.guides.springboot2.springboot2webappjsp.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import net.guides.springboot2.springboot2webappjsp.repositories.UserRepository;
+import org.springframework.web.util.WebUtils;
 
-import java.nio.charset.StandardCharsets;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -57,7 +60,7 @@ public class UserController {
 			return result;
 		}
 		result.setMsg("register successful");
-		result.setCode(200);
+		result.setCode(201);
 		return result;
 
 
@@ -67,8 +70,92 @@ public class UserController {
 
 	}
 
+	//	login page
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@CrossOrigin
+	public Result login(@RequestBody User user, HttpSession session, HttpServletResponse response) throws UnsupportedEncodingException {
+		Result result = new Result();
+
+		if (user.getName() == null || user.getEmail() == null || user.getPassword() == null) {
+			result.setMsg("Username and email_address and password cannot be null");
+			return result;
+		}
+
+		User existUser = userRepo.getUserByEmail(user.getEmail());
+		if (existUser == null) {
+			result.setMsg("You have not registered, please sign in");
+			result.setCode(400);
+			return result;
+		}
+
+		if (!existUser.getPassword().equals(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()))) {
+			result.setMsg("Worng password, please try it again");
+			result.setCode(400);
+			return result;
+		}
 
 
+		Cookie cookie = new Cookie("email",user.getEmail());
+		cookie.setMaxAge(24*60*60);
+
+
+		Cookie cookie1 = new Cookie("userName", URLEncoder.encode(user.getName(),"UTF-8"));
+		cookie1.setMaxAge(24*60*60);
+
+		response.addCookie(cookie);
+		response.addCookie(cookie1);
+
+		result.setCode(200);
+		result.setMsg("login successfully!");
+		return result;
+	}
+
+	//change password
+	@RequestMapping(value = "/changePassword", method = RequestMethod.POST)
+	@CrossOrigin
+	public Result changePassword(@RequestParam String email, @RequestParam String oldPassword, @RequestParam String newPassword, HttpSession session ) {
+		Result result = new Result();
+		User existUser = userRepo.getUserByEmail(email);
+
+		if (existUser == null) {
+			result.setMsg("wrong email address!");
+			result.setCode(400);
+			return result;
+		}
+		else if (!DigestUtils.md5DigestAsHex(oldPassword.getBytes()).equals(existUser.getPassword())) {
+			result.setMsg("Old password is wrong! ");
+			return result;
+		}else {
+			existUser.setPassword(DigestUtils.md5DigestAsHex(newPassword.getBytes()));
+			userRepo.save(existUser);
+			result.setMsg("change password successfully");
+			result.setCode(201);
+			return result;
+		}
+
+
+	}
+
+
+	//User log out
+	@RequestMapping(value = "/logout")
+	@CrossOrigin
+	public Result logout(HttpServletResponse response) {
+		Result result = new Result();
+		Cookie cookie = new Cookie("email",null);
+		cookie.setMaxAge(0);
+
+		Cookie cookie1 = new Cookie("userName",null);
+		cookie1.setMaxAge(0);
+
+		response.addCookie(cookie);
+		response.addCookie(cookie1);
+		result.setMsg("logout successfully! ");
+		result.setCode(200);
+		return result;
+
+
+	}
 
 
 

@@ -16,7 +16,9 @@ public class User
 	private String password;
 	private String email;
 	private String registerTime;
-
+	private double account_balance;
+	private String profile_pic;
+	private boolean is_admin;
 
 
 	public User()
@@ -89,4 +91,30 @@ public class User
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	public double getAccount_balance() {
+		return account_balance;
+	}
+
+	public void setAccount_balance(double account_balance) {
+		this.account_balance = account_balance;
+	}
+
+	public String getProfile_pic() {
+		return profile_pic;
+	}
+
+	public void setProfile_pic(String profile_pic) {
+		this.profile_pic = profile_pic;
+	}
+
+	public boolean isIs_admin() {
+		return is_admin;
+	}
+
+	public void setIs_admin(boolean is_admin) {
+		this.is_admin = is_admin;
+	}
+
+
 }
