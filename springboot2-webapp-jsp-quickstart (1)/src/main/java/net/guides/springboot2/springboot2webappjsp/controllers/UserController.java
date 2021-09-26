@@ -30,8 +30,7 @@ public class UserController {
 
 
 
-
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	@RequestMapping(value = "api/register", method = RequestMethod.POST)
 	@CrossOrigin
 	public Result register(@RequestBody User user) {
 		Result result = new Result();
@@ -54,6 +53,8 @@ public class UserController {
 		newUser.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
 		newUser.setEmail(user.getEmail());
 		newUser.setRegisterTime(format);
+
+
 		User u1 = userRepo.save(newUser);
 		if (u1 == null) {
 			result.setMsg("register error");
@@ -71,7 +72,7 @@ public class UserController {
 	}
 
 	//	login page
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@RequestMapping(value = "api/login", method = RequestMethod.POST)
 	@CrossOrigin
 	public Result login(@RequestBody User user, HttpSession session, HttpServletResponse response) throws UnsupportedEncodingException {
 		Result result = new Result();
@@ -97,8 +98,6 @@ public class UserController {
 
 		Cookie cookie = new Cookie("email",user.getEmail());
 		cookie.setMaxAge(24*60*60);
-
-
 		Cookie cookie1 = new Cookie("userName", URLEncoder.encode(user.getName(),"UTF-8"));
 		cookie1.setMaxAge(24*60*60);
 
@@ -110,35 +109,11 @@ public class UserController {
 		return result;
 	}
 
-	//change password
-	@RequestMapping(value = "/changePassword", method = RequestMethod.POST)
-	@CrossOrigin
-	public Result changePassword(@RequestParam String email, @RequestParam String oldPassword, @RequestParam String newPassword, HttpSession session ) {
-		Result result = new Result();
-		User existUser = userRepo.getUserByEmail(email);
 
-		if (existUser == null) {
-			result.setMsg("wrong email address!");
-			result.setCode(400);
-			return result;
-		}
-		else if (!DigestUtils.md5DigestAsHex(oldPassword.getBytes()).equals(existUser.getPassword())) {
-			result.setMsg("Old password is wrong! ");
-			return result;
-		}else {
-			existUser.setPassword(DigestUtils.md5DigestAsHex(newPassword.getBytes()));
-			userRepo.save(existUser);
-			result.setMsg("change password successfully");
-			result.setCode(201);
-			return result;
-		}
-
-
-	}
 
 
 	//User log out
-	@RequestMapping(value = "/logout")
+	@RequestMapping(value = "api/logout")
 	@CrossOrigin
 	public Result logout(HttpServletResponse response) {
 		Result result = new Result();

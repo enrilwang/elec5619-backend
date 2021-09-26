@@ -1,6 +1,8 @@
 package net.guides.springboot2.springboot2webappjsp.domain;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -9,16 +11,21 @@ public class User
 
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer user_id;
 	private String name;
-	private Integer user_favorite_user_favorite_id;
+
+
+
+	private String user_favorite_user_id;
+	private String user_subscribe_user_id;
 	private String password;
 	private String email;
 	private String registerTime;
 	private double account_balance;
 	private String profile_pic;
-	private boolean is_admin;
+
+
 
 
 	public User()
@@ -31,6 +38,23 @@ public class User
 		this.name = name;
 	}
 
+
+
+	public String getUser_favorite_user_id() {
+		return user_favorite_user_id;
+	}
+
+	public void setUser_favorite_user_id(String user_favorite_user_id) {
+		this.user_favorite_user_id = user_favorite_user_id;
+	}
+
+	public String getUser_subscribe_user_id() {
+		return user_subscribe_user_id;
+	}
+
+	public void setUser_subscribe_user_id(String user_subscribe_user_id) {
+		this.user_subscribe_user_id = user_subscribe_user_id;
+	}
 
 	public String getRegisterTime() {
 		return registerTime;
@@ -68,13 +92,7 @@ public class User
 		this.user_id = user_id;
 	}
 
-	public Integer getUser_favorite_user_favorite_id() {
-		return user_favorite_user_favorite_id;
-	}
 
-	public void setUser_favorite_user_favorite_id(Integer user_favorite_user_favorite_id) {
-		this.user_favorite_user_favorite_id = user_favorite_user_favorite_id;
-	}
 
 	public String getPassword() {
 		return password;
@@ -108,13 +126,7 @@ public class User
 		this.profile_pic = profile_pic;
 	}
 
-	public boolean isIs_admin() {
-		return is_admin;
-	}
 
-	public void setIs_admin(boolean is_admin) {
-		this.is_admin = is_admin;
-	}
 
 
 }
