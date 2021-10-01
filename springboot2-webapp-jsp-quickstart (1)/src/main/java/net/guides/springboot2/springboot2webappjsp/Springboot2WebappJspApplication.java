@@ -3,9 +3,12 @@ package net.guides.springboot2.springboot2webappjsp;
 import java.util.Collections;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 
 @SpringBootApplication
+
 public class Springboot2WebappJspApplication {
 
 	public static void main(String[] args) {

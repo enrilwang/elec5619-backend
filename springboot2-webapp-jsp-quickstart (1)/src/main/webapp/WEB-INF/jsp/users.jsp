@@ -13,6 +13,7 @@
 
 <body>
 <h1>Welcome to ELEC5619</h1>
+<a th:href="/@{/oauth2/authorization/facebook}">Login with Facebook</a>
 </body>
 
 </html>

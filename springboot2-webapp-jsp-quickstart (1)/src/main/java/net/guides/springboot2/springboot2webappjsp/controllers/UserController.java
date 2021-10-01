@@ -28,6 +28,12 @@ public class UserController {
 
 	}
 
+	@RequestMapping("/login/oauth2")
+	public String loginWithFB() {
+		return "good";
+
+
+	}
 
 
 	@RequestMapping(value = "api/register", method = RequestMethod.POST)
