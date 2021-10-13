@@ -8,19 +8,20 @@ import java.time.Instant;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id", nullable = false)
     private Integer id;
+
+    public User(){}
 
     @Column(name = "username", nullable = false, length = 45)
     private String username;
 
-    @Column(name = "password", nullable = false, length = 16)
+    @Column(name = "password", nullable = false, length = 200)
     private String password;
 
     @Column(name = "register_time", nullable = false)
     private String registerTime;
 
-    @Column(name = "description", nullable = false, length = 1024)
+    @Column(name = "description",  length = 1024)
     private String description;
 
     @Column(name = "email", length = 45)
@@ -32,11 +33,11 @@ public class User {
     @Column(name = "profile_pic_store")
     private String profilePicStore;
 
-    @Column(name = "is_admin", nullable = false)
-    private Integer isAdmin;
+    @Column(name = "is_admin")
+    private String isAdmin;
 
-    @Column(name = "is_creator", nullable = false)
-    private Integer isCreator;
+    @Column(name = "is_creator")
+    private String isCreator;
 
     @Column(name = "favorite_id", length = 1024)
     private String favoriteId;
@@ -44,31 +45,24 @@ public class User {
     @Column(name = "subscribe_id", length = 1024)
     private String subscribeId;
 
-    @Column(name = "id", nullable = false)
-    private Integer id1;
 
-    @Column(name = "name")
-    private String name;
 
-    public User() {
 
-    }
+
 
     public String getName() {
-        return name;
+        return username;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.username = name;
     }
 
-    public Integer getId1() {
-        return id1;
+    public Integer getId() {
+        return id;
     }
 
-    public void setId1(Integer id1) {
-        this.id1 = id1;
-    }
+
 
     public String getSubscribeId() {
         return subscribeId;
@@ -86,19 +80,19 @@ public class User {
         this.favoriteId = favoriteId;
     }
 
-    public Integer getIsCreator() {
+    public String getIsCreator() {
         return isCreator;
     }
 
-    public void setIsCreator(Integer isCreator) {
+    public void setIsCreator(String isCreator) {
         this.isCreator = isCreator;
     }
 
-    public Integer getIsAdmin() {
+    public String getIsAdmin() {
         return isAdmin;
     }
 
-    public void setIsAdmin(Integer isAdmin) {
+    public void setIsAdmin(String isAdmin) {
         this.isAdmin = isAdmin;
     }
 
@@ -158,11 +152,4 @@ public class User {
         this.username = username;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 }

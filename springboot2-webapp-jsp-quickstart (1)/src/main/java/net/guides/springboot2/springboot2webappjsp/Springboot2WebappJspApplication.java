@@ -13,7 +13,7 @@ public class Springboot2WebappJspApplication {
 
 	public static void main(String[] args) {
 		SpringApplication app = new SpringApplication(Springboot2WebappJspApplication.class);
-		app.setDefaultProperties(Collections.singletonMap("server.servlet.context-path", "/springboot2webapp"));
+		app.setDefaultProperties(Collections.singletonMap("server.servlet.context-path", "/api"));
 		app.run(args);
 	}
 }

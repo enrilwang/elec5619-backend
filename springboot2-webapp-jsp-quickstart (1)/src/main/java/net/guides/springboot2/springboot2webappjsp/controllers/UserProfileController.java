@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -65,7 +66,7 @@ public class UserProfileController {
 //    }
 
     //getAllFavouriteList
-    @RequestMapping(value = "api/getFavouriteList", method = RequestMethod.POST)
+    @RequestMapping(value = "getFavouriteList", method = RequestMethod.POST)
     @CrossOrigin
     public Result getFavouriteList(@RequestParam String email) {
         Result result = new Result();
@@ -94,14 +95,12 @@ public class UserProfileController {
         result.setData(favouriteList);
         return result;
 
-
-
     }
 
 
 
     //getAllSubscribeList
-    @RequestMapping(value = "api/getSubscribeList", method = RequestMethod.POST)
+    @RequestMapping(value = "getSubscribeList", method = RequestMethod.POST)
     @CrossOrigin
     public Result getSubscribeList(@RequestParam String email) {
         Result result = new Result();
@@ -141,6 +140,35 @@ public class UserProfileController {
 
 
     }
+
+
+    //delete favourite
+    @RequestMapping(value = "deleteFavouriteList", method = RequestMethod.POST)
+    @CrossOrigin
+    public Result deleteFavouriteList(@RequestParam String email,@RequestParam Integer id) {
+        Result result = new Result();
+        User existUser = userRepo.getUserByEmail(email);
+
+        String now = existUser.getFavoriteId();
+        if (now != null) {
+            String[] str = now.split(",");
+            List<String> favouriteList = Arrays.asList(str);
+            favouriteList.remove(String.valueOf(id));
+            String[] strs = favouriteList.toArray(new String[favouriteList.size()]);
+            existUser.setFavoriteId(Arrays.toString(strs));
+        }
+
+
+
+
+        result.setMsg("OK");
+        result.setCode(0);
+
+        return result;
+
+    }
+
+
 
 
 
