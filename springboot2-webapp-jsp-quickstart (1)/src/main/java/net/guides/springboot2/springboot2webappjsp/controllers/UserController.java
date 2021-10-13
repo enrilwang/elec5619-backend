@@ -80,7 +80,7 @@ public class UserController {
 	//	login page
 	@RequestMapping(value = "api/login", method = RequestMethod.POST)
 	@CrossOrigin
-	public Result login(@RequestBody User user, HttpSession session, HttpServletResponse response) throws UnsupportedEncodingException {
+	public Result login(@RequestBody User user,  HttpServletResponse response) throws UnsupportedEncodingException {
 		Result result = new Result();
 
 		if (user.getName() == null || user.getEmail() == null || user.getPassword() == null) {

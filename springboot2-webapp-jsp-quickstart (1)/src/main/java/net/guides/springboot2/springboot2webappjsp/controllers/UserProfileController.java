@@ -72,7 +72,7 @@ public class UserProfileController {
         User existUser = userRepo.getUserByEmail(email);
         List<User> favouriteList = new ArrayList<>();
         List<User> users = userRepo.findAll();
-        String now = existUser.getUser_favorite_user_id();
+        String now = existUser.getFavoriteId();
         if (now != null) {
             String[] str = now.split(",");
 
@@ -81,7 +81,7 @@ public class UserProfileController {
 
             for (int i = 0; i < ids.size(); i++) {
                 for (int j = 0; j < users.size(); j++) {
-                    if (ids.get(i) == users.get(j).getUser_id()) {
+                    if (ids.get(i) == users.get(j).getId()) {
                         favouriteList.add(users.get(j));
                         break;
                     }
@@ -117,14 +117,14 @@ public class UserProfileController {
             List<User> users = userRepo.findAll();
 
 
-            String now = existUser.getUser_subscribe_user_id();
+            String now = existUser.getSubscribeId();
             if (now != null) {
                 String[] str = now.split(",");
                 List<Integer> ids = new ArrayList<>();
                 for (String s : str) ids.add(Integer.valueOf(s));
                 for (int i = 0; i < ids.size(); i++) {
                     for (int j = 0; j < users.size(); j++) {
-                        if (ids.get(i) == users.get(j).getUser_id()) {
+                        if (ids.get(i) == users.get(j).getId()) {
                             subscribeList.add(users.get(j));
                             break;
                         }

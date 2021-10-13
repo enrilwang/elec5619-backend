@@ -18,7 +18,7 @@ public class User {
     private String password;
 
     @Column(name = "register_time", nullable = false)
-    private Instant registerTime;
+    private String registerTime;
 
     @Column(name = "description", nullable = false, length = 1024)
     private String description;
@@ -134,11 +134,11 @@ public class User {
         this.description = description;
     }
 
-    public Instant getRegisterTime() {
+    public String getRegisterTime() {
         return registerTime;
     }
 
-    public void setRegisterTime(Instant registerTime) {
+    public void setRegisterTime(String registerTime) {
         this.registerTime = registerTime;
     }
 
