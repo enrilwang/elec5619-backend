@@ -12,6 +12,8 @@ public class User {
 
     public User(){}
 
+
+
     @Column(name = "username", nullable = false, length = 45)
     private String username;
 

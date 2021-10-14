@@ -6,8 +6,8 @@ public class Result {
     private int code;
     private String msg;
     private Object data;
-    private String cookie;
-    private HttpServletResponse response;
+
+    private String token;
 
     public int getCode() {
         return code;
@@ -33,12 +33,12 @@ public class Result {
     }
 
 
-    public HttpServletResponse getResponse() {
-        return response;
+    public String getToken() {
+        return token;
     }
 
-    public void setResponse(HttpServletResponse  response) {
-        this.response = response;
+    public void setToken(String token) {
+        this.token = token;
     }
 
 

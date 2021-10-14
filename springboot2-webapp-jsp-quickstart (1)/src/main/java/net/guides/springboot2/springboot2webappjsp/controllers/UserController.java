@@ -1,22 +1,19 @@
 package net.guides.springboot2.springboot2webappjsp.controllers;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import net.guides.springboot2.springboot2webappjsp.configuration.JwtUtil;
 import org.springframework.util.DigestUtils;
 import net.guides.springboot2.springboot2webappjsp.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import net.guides.springboot2.springboot2webappjsp.repositories.UserRepository;
-import org.springframework.web.util.WebUtils;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 //code 1 : failed
@@ -54,6 +51,17 @@ public class UserController {
 			return result;
 		}
 
+		boolean flag =false;
+		String check = "^([a-z0-9A-Z]+[-|_|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+		Pattern regex = Pattern.compile(check);
+		Matcher matcher = null;
+		matcher = regex.matcher(user.getEmail());
+		flag = matcher.matches();
+		if (!flag) {
+			result.setMsg("email format does not correct");
+			result.setCode(1);
+			return result;
+		}
 
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -65,6 +73,7 @@ public class UserController {
 		newUser.setRegisterTime(format);
 		newUser.setIsCreator("user");
 		newUser.setIsAdmin("user");
+		newUser.setProfilePicStore("https://s.pximg.net/common/images/no_profile_s.png");
 
 		User u1 = userRepo.save(newUser);
 		if (u1 == null) {
@@ -85,7 +94,7 @@ public class UserController {
 	//	login page
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	@CrossOrigin
-	public Result login(@RequestBody User user, HttpServletResponse response) throws UnsupportedEncodingException {
+	public Result login(@RequestBody User user) throws UnsupportedEncodingException {
 		Result result = new Result();
 
 		if ( user.getEmail() == null || user.getPassword() == null) {
@@ -106,28 +115,23 @@ public class UserController {
 			return result;
 		}
 
-		Cookie cookie = new Cookie("token",DigestUtils.md5DigestAsHex(user.getEmail().getBytes()));
-		cookie.setMaxAge(24*60*60);
-
-		Collection<String> headers = response.getHeaders(HttpHeaders.SET_COOKIE);
-		boolean firstHeader = true;
-		for (String header: headers) {
-			if (firstHeader) {
-				response.addHeader(HttpHeaders.SET_COOKIE,String.format("%s;%s",header,"SameSite=None"));
-				firstHeader = false;
-				continue;
-			}
-			response.addHeader(HttpHeaders.SET_COOKIE, String.format("%s;%s",header,"SameSite=None"));
-		}
-		response.addCookie(cookie);
-
 		HashMap<String,String> list = new HashMap<>();
 		list.put("username",URLEncoder.encode(existUser.getUsername(),"UTF-8"));
 		list.put("role",existUser.getIsCreator());
 
-		result.setCode(0);
-		result.setMsg("login successfully!");
-		result.setData(list);
+//		give token to client side
+		String token = JwtUtil.sign(user.getEmail(),existUser.getPassword());
+		if (token!= null) {
+			result.setCode(0);
+			result.setMsg("login successfully!");
+			result.setData(list);
+			result.setToken(token);
+			return result;
+		}
+
+		result.setCode(1);
+		result.setMsg("token failed!");
+
 		return result;
 	}
 
@@ -135,16 +139,10 @@ public class UserController {
 
 
 	//User log out
-	@RequestMapping(value = "api/logout")
+	@RequestMapping(value = "/logout")
 	@CrossOrigin
 	public Result logout(HttpServletResponse response) {
 		Result result = new Result();
-		Cookie cookie = new Cookie("token",null);
-		cookie.setMaxAge(0);
-
-
-
-		response.addCookie(cookie);
 
 		result.setMsg("logout successfully! ");
 		result.setCode(0);

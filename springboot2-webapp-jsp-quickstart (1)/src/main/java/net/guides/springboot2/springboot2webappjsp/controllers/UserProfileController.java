@@ -1,14 +1,18 @@
 package net.guides.springboot2.springboot2webappjsp.controllers;
 
+import net.guides.springboot2.springboot2webappjsp.configuration.JwtUtil;
 import net.guides.springboot2.springboot2webappjsp.domain.User;
 import net.guides.springboot2.springboot2webappjsp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -39,6 +43,57 @@ public class UserProfileController {
 
 
     }
+
+
+
+
+    //getUserInfo
+    @RequestMapping(value = "getUserInfo", method = RequestMethod.GET)
+    @CrossOrigin
+    public Result getUserInfo(HttpServletRequest request) {
+        Result result = new Result();
+        String token = request.getHeader("Authorization");
+
+
+        if (token != null){
+            String email = JwtUtil.getUserEmailByToken(request);
+            try{
+                User user1 = userRepo.getUserByEmail(email);
+                String pass = user1.getPassword();
+                boolean ans = JwtUtil.verify(token,email,pass);
+                if(ans){
+                    System.out.println("access OK");
+                    result.setCode(0);
+                    HashMap<String,String> map = new HashMap<>();
+                    map.put("role",user1.getIsCreator());
+                    map.put("email",user1.getEmail());
+                    map.put("avatar",user1.getProfilePicStore());
+                    map.put("username",user1.getUsername());
+                    result.setData(map);
+                    return result;
+
+                }
+            }catch (Exception e) {
+                System.out.println(e.toString());
+                result.setCode(-2);
+                return result;
+            }
+
+
+
+
+        }
+        result.setCode(1);
+        result.setMsg("token failed");
+        return result;
+
+
+
+
+        }
+
+
+
 
 
 //    //add profile picture

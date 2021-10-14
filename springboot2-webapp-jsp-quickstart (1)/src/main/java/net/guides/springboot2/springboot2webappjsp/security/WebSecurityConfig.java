@@ -46,32 +46,32 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
         http.csrf().disable();
-
-
-                http.authorizeRequests()
-                .antMatchers("/oauth2/**").permitAll();
-//               http.authorizeRequests().and().formLogin()
 //
-//                    .loginPage("/login")
-        //.and()
-                http.oauth2Login().loginPage("/login/oauth2")
-                    .userInfoEndpoint()
-                    .userService(oauth2UserService);
-//                    .and()
-//                .and()
-//                .logout().permitAll();
-        http.httpBasic().disable();
+//
+//                http.authorizeRequests()
+//                .antMatchers("/oauth2/**").permitAll();
+////               http.authorizeRequests().and().formLogin()
+////
+////                    .loginPage("/login")
+//        //.and()
+//                http.oauth2Login().loginPage("/login/oauth2")
+//                    .userInfoEndpoint()
+//                    .userService(oauth2UserService);
+////                    .and()
+////                .and()
+////                .logout().permitAll();
+//        http.httpBasic().disable();
     }
 
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-
-
-        super.configure(web);
-        web.httpFirewall(allowAll());
-
-
-    }
+//    @Override
+//    public void configure(WebSecurity web) throws Exception {
+//
+//
+//        super.configure(web);
+//        web.httpFirewall(allowAll());
+//
+//
+//    }
 
 }

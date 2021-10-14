@@ -24,7 +24,9 @@ public class CorsConfig implements WebMvcConfigurer {
         corsCon.addAllowedOrigin("http://127.0.0.1:8080");
         corsCon.addAllowedHeader("*");
         corsCon.addAllowedMethod("*");
-
+//        corsCon.addAllowedMethod("GET");
+//        corsCon.addAllowedMethod("POST");
+//        corsCon.addAllowedMethod("OPTIONS");
         return corsCon;
     }
 

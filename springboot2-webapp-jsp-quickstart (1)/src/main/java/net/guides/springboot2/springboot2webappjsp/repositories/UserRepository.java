@@ -7,5 +7,6 @@ import net.guides.springboot2.springboot2webappjsp.domain.User;
 public interface UserRepository extends JpaRepository<User, Integer>
 {
     User getUserByEmail(String email);
+
 //    Boolean isUserExist(String email);
 }
