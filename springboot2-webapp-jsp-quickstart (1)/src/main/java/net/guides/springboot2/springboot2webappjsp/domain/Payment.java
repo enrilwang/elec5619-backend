@@ -1,8 +1,19 @@
 package net.guides.springboot2.springboot2webappjsp.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.springframework.stereotype.Component;
+
 import javax.persistence.*;
 import java.time.Instant;
 
+@Component
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@ToString
 @Table(name = "payments")
 @Entity
 public class Payment {
@@ -26,55 +37,6 @@ public class Payment {
     @Column(name = "holder_name", nullable = false, length = 45)
     private String holderName;
 
-    public Payment() {
 
-    }
 
-    public String getHolderName() {
-        return holderName;
-    }
-
-    public void setHolderName(String holderName) {
-        this.holderName = holderName;
-    }
-
-    public Instant getValidTime() {
-        return validTime;
-    }
-
-    public void setValidTime(Instant validTime) {
-        this.validTime = validTime;
-    }
-
-    public String getCvv() {
-        return cvv;
-    }
-
-    public void setCvv(String cvv) {
-        this.cvv = cvv;
-    }
-
-    public String getCardNumber() {
-        return cardNumber;
-    }
-
-    public void setCardNumber(String cardNumber) {
-        this.cardNumber = cardNumber;
-    }
-
-    public Instant getPayTime() {
-        return payTime;
-    }
-
-    public void setPayTime(Instant payTime) {
-        this.payTime = payTime;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 }
