@@ -5,11 +5,21 @@ import javax.persistence.*;
 @Table(name = "artifact")
 @Entity
 public class Artifact {
-    @EmbeddedId
-    private ArtifactId id;
+
+    @Id
+    @Column(name = "artifact_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer artifactId;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user_id;
 
     @Column(name = "store_location", nullable = false)
     private String storeLocation;
+
+    @Column(name = "title", nullable = false)
+    private String title;
 
     @Column(name = "description")
     private String description;
@@ -21,8 +31,12 @@ public class Artifact {
     @JoinColumn(name = "category_name", nullable = false)
     private Category categoryName;
 
-    public Artifact() {
+    public Integer getArtifactId() {
+        return artifactId;
+    }
 
+    public void setArtifactId(Integer artifactId) {
+        this.artifactId = artifactId;
     }
 
     public Category getCategoryName() {
@@ -41,6 +55,14 @@ public class Artifact {
         this.artifactWeights = artifactWeights;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -57,11 +79,4 @@ public class Artifact {
         this.storeLocation = storeLocation;
     }
 
-    public ArtifactId getId() {
-        return id;
-    }
-
-    public void setId(ArtifactId id) {
-        this.id = id;
-    }
 }
