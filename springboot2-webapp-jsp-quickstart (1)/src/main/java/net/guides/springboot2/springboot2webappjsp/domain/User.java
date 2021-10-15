@@ -45,7 +45,7 @@ public class User {
     private String favoriteId;
 
     @Column(name = "subscribe_id", length = 1024)
-    private int subscribeId;
+    private String subscribeId;
 
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -68,11 +68,11 @@ public class User {
 
 
 
-    public int getSubscribeId() {
+    public String getSubscribeId() {
         return subscribeId;
     }
 
-    public void setSubscribeId(int subscribeId) {
+    public void setSubscribeId(String subscribeId) {
         this.subscribeId = subscribeId;
     }
 
