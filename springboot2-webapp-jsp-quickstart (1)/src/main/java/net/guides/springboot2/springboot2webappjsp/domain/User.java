@@ -48,7 +48,9 @@ public class User {
     private int subscribeId;
 
 
-
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "artifact_id")
+    private Set<Artifact> artifacts;
 
 
 
