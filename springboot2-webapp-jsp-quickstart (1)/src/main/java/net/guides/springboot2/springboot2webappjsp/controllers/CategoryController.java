@@ -17,25 +17,7 @@ public class CategoryController {
 
     public CategoryController() {
 
-        //default category
-        Category photo = new Category();
-        photo.setId("Photo");
-        photo.setUpdateTime(Instant.now());
-        photo.setCategoryDescription("Record your life moments and reveal the beauty of nature!");
-        categoryRepo.save(photo);
-
-        Category music = new Category();
-        music.setId("Music");
-        music.setUpdateTime(Instant.now());
-        music.setCategoryDescription("Record the moments of your inspiration with music!");
-        categoryRepo.save(music);
-
-        Category art = new Category();
-        art.setId("Art");
-        art.setUpdateTime(Instant.now());
-        art.setCategoryDescription("Record the nature and life with art!");
-        categoryRepo.save(art);
-
+        
 
     }
 
