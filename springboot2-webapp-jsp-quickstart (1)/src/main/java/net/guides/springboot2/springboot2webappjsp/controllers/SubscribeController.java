@@ -1,5 +1,6 @@
 package net.guides.springboot2.springboot2webappjsp.controllers;
 
+import net.guides.springboot2.springboot2webappjsp.configuration.JwtUtil;
 import net.guides.springboot2.springboot2webappjsp.domain.Subscribe;
 import net.guides.springboot2.springboot2webappjsp.domain.SubscriptionType;
 import net.guides.springboot2.springboot2webappjsp.domain.User;
@@ -10,10 +11,9 @@ import net.guides.springboot2.springboot2webappjsp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 //Test json
 //{
@@ -26,7 +26,7 @@ import java.util.List;
 
 @RestController
 public class SubscribeController {
-    private static final String path = "api/subscribe";
+    private static final String path = "subscribe";
 
     @Autowired
     SubscribeRepository subscribeRepo;
@@ -39,17 +39,19 @@ public class SubscribeController {
 
     //C
     @PostMapping(path)
-    public Result postSubscribe(@RequestBody Subscribe subscribe) {
+    public Result postSubscribe(HttpServletRequest request, @RequestBody Subscribe subscribe) {
         Result result = new Result();
         User userQueryResult;
         SubscriptionType subscriptionTypeQueryResult;
 //        Payments paymentsQueryResult = null;
-        Subscribe subscribeQueryResult;
+        List<Subscribe> subscribeQueryResult;
         User userBalanceQueryResult;
+        Subscribe subscribeElement;
         System.out.println(subscribe);
 
         /*validate data*/
         //2.check creator
+
         userQueryResult = userRepo.getUserById(subscribe.getCreatorId());
         if (userQueryResult == null) {
             result.setMsg("Creator is not existed");
@@ -62,8 +64,12 @@ public class SubscribeController {
                 return result;
             }
         }
+
+
         //1.check subscriber
-        userQueryResult = userRepo.getUserById(subscribe.getUserId());
+        String email = JwtUtil.getUserEmailByToken(request);
+        userQueryResult = userRepo.getUserByEmail(email);
+//        userQueryResult = userRepo.getUserById(subscribe.getUserId());
         if (userQueryResult == null) {
             result.setMsg("User is not existed");
             result.setCode(1);
@@ -91,13 +97,13 @@ public class SubscribeController {
 
         //validate logic
         //check is activated
-        subscribeQueryResult = subscribeRepo.getSubscribeByUserIdAndCreatorIdAndActivated(subscribe.getUserId(), subscribe.getCreatorId(), true);
-        if (subscribeQueryResult != null) {
+        subscribeQueryResult = subscribeRepo.getSubscribeByUserIdAndCreatorIdAndActivated(userQueryResult.getId(), subscribe.getCreatorId(), true);
+
+        if ((subscribeQueryResult!=null&&subscribeQueryResult.size()>0)&&subscribeQueryResult.get(0).isActivated() == true) {
             result.setMsg("Already activated. No need to subscribe again");
             result.setCode(1);
             return result;
         }
-
         //set target price
         float price = 0;
         if (subscribe.getSubscribeType() == 0) {
@@ -143,21 +149,48 @@ public class SubscribeController {
 //            result.setMsg("Payment is not existed.");
 //            return result;
 //        } 
-
+        System.out.println("start to subscribe");
         //start subscribe
+        List<Subscribe> subscribeFalseQueryResult = subscribeRepo.getSubscribeByUserIdAndCreatorIdAndActivated(userQueryResult.getId(), subscribe.getCreatorId(), false);
+        Collections.sort(subscribeFalseQueryResult, Collections.reverseOrder());
+        Subscribe subscribeFalseEle=null;
         //format date
+        Date currentDate=new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date currentDate = new Date();
+        System.out.println("start to check start date");
+        if(subscribeFalseQueryResult.size()>0){
+            Date temp=null;
+            subscribeFalseEle=subscribeFalseQueryResult.get(0);
+            try{
+                System.out.println(subscribeFalseEle.getTimeEnd());
+                 temp = sdf.parse(subscribeFalseEle.getTimeEnd());
+            }catch (Exception e){
+                result.setMsg("Date Error");
+                result.setCode(1);
+                return result;
+            }
+            if (temp.after(new Date())) {
+                currentDate=temp;
+
+
+
+
+
+
+            }
+        }
+
         String startTime = sdf.format(currentDate);
+
         //check period
         if (subscribe.getSubscribeType() == 0) {
             currentDate.setMonth(currentDate.getMonth() + 1);
         }
         if (subscribe.getSubscribeType() == 1) {
-            currentDate.setMonth(currentDate.getMonth() + 3);
+            currentDate.setMonth(currentDate.getMonth() + 1);
         }
         if (subscribe.getSubscribeType() == 2) {
-            currentDate.setYear(currentDate.getYear() + 1);
+            currentDate.setYear(currentDate.getMonth() + 1);
         }
         String endTime = sdf.format(currentDate);
 
@@ -168,22 +201,25 @@ public class SubscribeController {
                 subscribe.getPaymentsSerialId(),
                 subscribe.getSubscribeType(),
                 subscribe.getSubscriptionTypeId(),
-                subscribe.getUserId(),
+                userQueryResult.getId(),
                 startTime,
                 endTime);
 
         //update subscribe
-        subscribeQueryResult = subscribeRepo.save(newSubscribe);
-        if (subscribeQueryResult == null) {
+        System.out.println("now adding subscribe");
+        System.out.println(newSubscribe);
+        Subscribe subscribeInsertResult = subscribeRepo.save(newSubscribe);
+        if (subscribeInsertResult == null) {
             result.setMsg("Update subscribe information failed. Balance is rolled back.");
             result.setCode(1);
             return result;
         }
 
+        System.out.println("now updating balance and subscribe list");
         //update user balance & add subscribe id
         userQueryResult.setAccountBalance(userQueryResult.getAccountBalance() - price);
-        List<Integer> newSubscribeId = intArrayStringToIntArray(userQueryResult.getSubscribeId());
-        newSubscribeId.add(subscribeQueryResult.getSubscribeId());
+        Set<Integer> newSubscribeId = intArrayStringToIntArray(userQueryResult.getSubscribeId());
+        newSubscribeId.add(subscribeInsertResult.getCreatorId());
         userQueryResult.setSubscribeId(newSubscribeId.toString());
         userBalanceQueryResult = userRepo.save(userQueryResult);
         if (userBalanceQueryResult == null) {
@@ -201,17 +237,17 @@ public class SubscribeController {
 
     //R
     @GetMapping(path)
-    public Result getSubscribe(@RequestParam(name = "subscribeId", required = false) Integer subscribeId,
+    public Result getSubscribe(HttpServletRequest request, @RequestParam(name = "subscribeId", required = false) Integer subscribeId,
                                @RequestParam(name = "userId", required = false) Integer userId) {
         Result result = new Result();
-        if (subscribeId == null) {
+        if (userId != null) {
             //return all valid subscription
             List<Subscribe> allUserSubscription = subscribeRepo.getSubscribeByUserId(userId);
             result.setData(allUserSubscription);
             result.setCode(0);
             return result;
         }
-        if (userId == null) {
+        if (subscribeId != null) {
             //return specific subscription
             Subscribe subscribe = subscribeRepo.getSubscribeBySubscribeId(subscribeId);
             if (subscribe == null) {
@@ -224,46 +260,87 @@ public class SubscribeController {
             result.setMsg("Success");
             return result;
         }
-        result.setMsg("No parameter.");
-        result.setCode(1);
+        String email = JwtUtil.getUserEmailByToken(request);
+        if(request==null){
+            result.setMsg("No Http token!");
+            result.setCode(1);
+            return result;
+        }
+//        System.out.println(email);
+        User userQueryResult = userRepo.getUserByEmail(email);
+//        System.out.println(userQueryResult);
+        if(userQueryResult==null){
+            result.setMsg("Current User Null!");
+            result.setCode(1);
+            return result;
+        }
+//        System.out.println(userQueryResult.getId());
+        List<Subscribe> record=subscribeRepo.getSubscribeByUserId(userQueryResult.getId());
+//        System.out.println(record);
+        result.setData(record);
+        result.setMsg("Success!");
+        result.setCode(0);
         return result;
     }
 
     //D
     @DeleteMapping(path)
-    public Result cancelSubscribe(@RequestParam int subscribeId) {
+    public Result cancelSubscribe(HttpServletRequest request, @RequestParam int creatorId) {
         Result result = new Result();
-        Subscribe subscribe = subscribeRepo.getSubscribeBySubscribeId(subscribeId);
-        if (subscribe == null) {
+        String email = JwtUtil.getUserEmailByToken(request);
+        User userQueryResult = userRepo.getUserByEmail(email);
+        List<Subscribe> subscribeR = subscribeRepo.getSubscribeByUserIdAndCreatorIdAndActivated(userQueryResult.getId(),creatorId,true);
+
+        if (subscribeR==null||subscribeR.size()<=0) {
             result.setCode(1);
-            result.setMsg("Invalid subscribe information");
+            result.setMsg("No activated subscribe");
             return result;
         }
-        if (subscribe.isActivated()) {
-            subscribe.setActivated(false);
-            Subscribe subscribeQueryResult = subscribeRepo.save(subscribe);
-            if (subscribeQueryResult == null) {
-                result.setMsg("Save subscribe information error");
-                result.setCode(1);
-                return result;
-            }
-            result.setMsg("Now is inactivated");
-            result.setCode(0);
-        } else {
+        Subscribe subscribe=subscribeR.get(0);
+        subscribe.setActivated(false);
+        Subscribe subscribeQueryResult = subscribeRepo.save(subscribe);
+        if (subscribeQueryResult == null) {
+            result.setMsg("Save subscribe information error");
             result.setCode(1);
-            result.setMsg("Already inactivated.");
+            return result;
         }
+        result.setMsg("Now is inactivated");
+        result.setCode(0);
         return result;
     }
+//    public Result cancelSubscribe(@RequestParam int subscribeId) {
+//        Result result = new Result();
+//        Subscribe subscribe = subscribeRepo.getSubscribeBySubscribeId(subscribeId);
+//        if (subscribe == null) {
+//            result.setCode(1);
+//            result.setMsg("Invalid subscribe information");
+//            return result;
+//        }
+//        if (subscribe.isActivated()) {
+//            subscribe.setActivated(false);
+//            Subscribe subscribeQueryResult = subscribeRepo.save(subscribe);
+//            if (subscribeQueryResult == null) {
+//                result.setMsg("Save subscribe information error");
+//                result.setCode(1);
+//                return result;
+//            }
+//            result.setMsg("Now is inactivated");
+//            result.setCode(0);
+//        } else {
+//            result.setCode(1);
+//            result.setMsg("Already inactivated.");
+//        }
+//        return result;
+//    }
 
-    public List<Integer> intArrayStringToIntArray(String arr) {
+    public Set<Integer> intArrayStringToIntArray(String arr) {
         if (noContent(arr)) {
-            return new LinkedList<Integer>();
+            return new LinkedHashSet<Integer>();
         }
-        List<Integer> result = new LinkedList<Integer>();
+        Set<Integer> result = new LinkedHashSet<Integer>();
         arr = arr.replaceAll("[^,^\\d]", "");
         if (noContent(arr)) {
-            return new LinkedList<Integer>();
+            return new LinkedHashSet<Integer>();
         }
         String[] splitted = arr.split(",");
         for (String ele : splitted) {
