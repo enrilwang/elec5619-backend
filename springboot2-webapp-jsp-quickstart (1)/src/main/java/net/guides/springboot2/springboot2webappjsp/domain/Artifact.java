@@ -1,6 +1,9 @@
 package net.guides.springboot2.springboot2webappjsp.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.Optional;
 
 @Table(name = "artifact")
 @Entity
@@ -12,13 +15,16 @@ public class Artifact {
     private Integer artifactId;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user_id;
+    @JoinColumn(name = "user_id", nullable = true)
+    //@NotNull(message = "User_id can't be empty!")
+    private User user;
 
     @Column(name = "store_location", nullable = false)
+    @NotBlank(message = "Please define store location!")
     private String storeLocation;
 
     @Column(name = "title", nullable = false)
+    @NotBlank(message = "Title can't be empty!")
     private String title;
 
     @Column(name = "description")
@@ -30,6 +36,25 @@ public class Artifact {
     @ManyToOne(optional = false)
     @JoinColumn(name = "category_name", nullable = false)
     private Category categoryName;
+
+
+    public Artifact() {
+
+    }
+
+    public Artifact(String title, String description, Category categoryName) {
+        this.title = title;
+        this.description = description;
+        this.categoryName = categoryName;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Integer getArtifactId() {
         return artifactId;
