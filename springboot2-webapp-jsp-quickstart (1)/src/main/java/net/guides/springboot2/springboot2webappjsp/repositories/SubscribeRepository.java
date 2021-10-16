@@ -8,6 +8,6 @@ import java.util.List;
 public interface SubscribeRepository extends JpaRepository<Subscribe,Integer>{
     Subscribe getSubscribeBySubscribeId(int subscribeId);
     List<Subscribe> getSubscribeByUserId(int userId);
-    Subscribe getSubscribeByUserIdAndCreatorIdAndActivated(int userId, int creatorId, boolean activated);
+    List<Subscribe> getSubscribeByUserIdAndCreatorIdAndActivated(int userId, int creatorId, boolean activated);
 }
 
