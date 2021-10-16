@@ -218,7 +218,7 @@ public class SubscribeController {
         System.out.println("now updating balance and subscribe list");
         //update user balance & add subscribe id
         userQueryResult.setAccountBalance(userQueryResult.getAccountBalance() - price);
-        Set<Integer> newSubscribeId = intArrayStringToIntArray(userQueryResult.getSubscribeId());
+        Set<Integer> newSubscribeId = IntArrayStringToIntArray.intArrayStringToIntArray(userQueryResult.getSubscribeId());
         newSubscribeId.add(subscribeInsertResult.getCreatorId());
         userQueryResult.setSubscribeId(newSubscribeId.toString());
         userBalanceQueryResult = userRepo.save(userQueryResult);
@@ -333,28 +333,28 @@ public class SubscribeController {
 //        return result;
 //    }
 
-    public Set<Integer> intArrayStringToIntArray(String arr) {
-        if (noContent(arr)) {
-            return new LinkedHashSet<Integer>();
-        }
-        Set<Integer> result = new LinkedHashSet<Integer>();
-        arr = arr.replaceAll("[^,^\\d]", "");
-        if (noContent(arr)) {
-            return new LinkedHashSet<Integer>();
-        }
-        String[] splitted = arr.split(",");
-        for (String ele : splitted) {
-            try {
-                result.add(Integer.parseInt(ele));
-            } catch (Exception e) {
-                //No need to deal.
-            }
-        }
-        return result;
-    }
-
-    private boolean noContent(String str) {
-        return str == null || str.equals("");
-    }
+//    public Set<Integer> intArrayStringToIntArray(String arr) {
+//        if (noContent(arr)) {
+//            return new LinkedHashSet<Integer>();
+//        }
+//        Set<Integer> result = new LinkedHashSet<Integer>();
+//        arr = arr.replaceAll("[^,^\\d]", "");
+//        if (noContent(arr)) {
+//            return new LinkedHashSet<Integer>();
+//        }
+//        String[] splitted = arr.split(",");
+//        for (String ele : splitted) {
+//            try {
+//                result.add(Integer.parseInt(ele));
+//            } catch (Exception e) {
+//                //No need to deal.
+//            }
+//        }
+//        return result;
+//    }
+//
+//    private boolean noContent(String str) {
+//        return str == null || str.equals("");
+//    }
 
 }
