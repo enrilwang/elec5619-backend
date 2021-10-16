@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SubscriptionTypeRepository extends JpaRepository<SubscriptionType,Integer> {
     SubscriptionType getSubscriptionTypeBySubscriptionTypeId(int subscriptionTypeId);
+    SubscriptionType getSubscriptionTypeByUserId(int userId);
 }
