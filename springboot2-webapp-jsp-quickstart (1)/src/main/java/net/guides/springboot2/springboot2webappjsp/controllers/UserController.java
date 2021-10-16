@@ -1,12 +1,14 @@
 package net.guides.springboot2.springboot2webappjsp.controllers;
 import net.guides.springboot2.springboot2webappjsp.configuration.JwtUtil;
+import net.guides.springboot2.springboot2webappjsp.sdk.GeetestConfig;
+import net.guides.springboot2.springboot2webappjsp.sdk.GeetestLib;
 import org.springframework.util.DigestUtils;
 import net.guides.springboot2.springboot2webappjsp.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import net.guides.springboot2.springboot2webappjsp.repositories.UserRepository;
 
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -74,12 +76,11 @@ public class UserController {
 		newUser.setIsCreator("user");
 		newUser.setIsAdmin("user");
 		newUser.setProfilePicStore("https://s.pximg.net/common/images/no_profile_s.png");
+		float b = 0.0f;
+		newUser.setAccountBalance(b);
 
-		User u1 = userRepo.save(newUser);
-		if (u1 == null) {
-			result.setMsg("register error");
-			return result;
-		}
+		userRepo.save(newUser);
+
 		result.setMsg("register successful");
 		result.setCode(0);
 		return result;
@@ -94,8 +95,9 @@ public class UserController {
 	//	login page
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	@CrossOrigin
-	public Result login(@RequestBody User user) throws UnsupportedEncodingException {
+	public Result login( @RequestBody User user) throws UnsupportedEncodingException {
 		Result result = new Result();
+//		normal login
 
 		if ( user.getEmail() == null || user.getPassword() == null) {
 			result.setMsg("Username and email_address and password cannot be null");
@@ -139,11 +141,11 @@ public class UserController {
 
 
 	//User log out
-	@RequestMapping(value = "/logout")
+	@RequestMapping(value = "userlogout", produces = "application/json", method = RequestMethod.GET)
 	@CrossOrigin
-	public Result logout(HttpServletResponse response) {
+	public Result logout(HttpServletRequest request) {
 		Result result = new Result();
-
+		System.out.println("WWWWWWWW");
 		result.setMsg("logout successfully! ");
 		result.setCode(0);
 		return result;

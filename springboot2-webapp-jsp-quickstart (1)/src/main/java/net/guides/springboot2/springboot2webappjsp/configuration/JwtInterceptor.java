@@ -20,31 +20,45 @@ public class JwtInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-//        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
-//            return true;
-//        }
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            System.out.println("get option,access");
+            return true;
+        }
 
         String token = request.getHeader("Authorization");
-
+        System.out.println(" token,access " + token);
         if(!(handler instanceof HandlerMethod)){
             return true;
         }
         if (token != null){
             String email = JwtUtil.getUserEmailByToken(request);
 
-            String pass = ur.getUserByEmail(email).getPassword();
-            boolean result = JwtUtil.verify(token,email,pass);
-            if(result){
-                System.out.println("access OK");
-                return true;
+            if (email == "token is expired") {
+                System.out.println("token is expired");
+                return false;
             }
+            String pass = ur.getUserByEmail(email).getPassword();
+            try {
+                boolean result = JwtUtil.verify(token,email,pass);
+                if(result){
+                    System.out.println("access OK");
+                    return true;
+                }
+            }catch (Exception e) {
+                System.out.println("Wrong issue occrus");
+                return false;
+            }
+
+
         }
         return false;
     }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-
+        if ( response.getStatus()==404) {
+            System.out.println("404 not Found");
+        }
     }
 
     @Override

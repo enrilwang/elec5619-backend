@@ -21,28 +21,53 @@ public class UserProfileController {
     UserRepository userRepo;
 
     //change password
-    @RequestMapping(value = "api/changeNameAndPassword", method = RequestMethod.POST)
+    @RequestMapping(value = "changeNameAndPassword", method = RequestMethod.POST)
     @CrossOrigin
-    public Result changeNameAndPassword(@RequestParam String email,  @RequestParam String newPassword, @RequestParam String name) {
+    public Result changeNameAndPassword(HttpServletRequest request, @RequestBody User user) {
         Result result = new Result();
+
+        String email = JwtUtil.getUserEmailByToken(request);
         User existUser = userRepo.getUserByEmail(email);
 
         if (existUser == null) {
             result.setMsg("wrong email address!");
-            result.setCode(400);
+            result.setCode(1);
             return result;
         }
         else {
-            existUser.setPassword(DigestUtils.md5DigestAsHex(newPassword.getBytes()));
-            existUser.setName(name);
+
+            existUser.setPassword(DigestUtils.md5DigestAsHex(user.getPassword() .getBytes()));
+            existUser.setName(user.getUsername());
             userRepo.save(existUser);
-            result.setMsg("change password successfully");
-            result.setCode(201);
+            result.setMsg("change name and password successfully");
+            result.setCode(0);
             return result;
         }
 
 
     }
+
+
+    //change role
+    @RequestMapping(value = "changeRole", method = RequestMethod.POST)
+    @CrossOrigin
+    public Result changeRole(HttpServletRequest request) {
+        Result result = new Result();
+
+            String email = JwtUtil.getUserEmailByToken(request);
+            User existUser = userRepo.getUserByEmail(email);
+
+            if (existUser.getIsCreator().equals("user")) existUser.setIsCreator("creator");
+            else existUser.setIsCreator("user");
+
+            userRepo.save(existUser);
+            result.setMsg("change role successfully");
+            result.setCode(0);
+            return result;
+
+
+    }
+
 
 
 
@@ -55,42 +80,37 @@ public class UserProfileController {
         String token = request.getHeader("Authorization");
 
 
-        if (token != null){
-            String email = JwtUtil.getUserEmailByToken(request);
-            try{
-                User user1 = userRepo.getUserByEmail(email);
-                String pass = user1.getPassword();
-                boolean ans = JwtUtil.verify(token,email,pass);
-                if(ans){
-                    System.out.println("access OK");
-                    result.setCode(0);
-                    HashMap<String,String> map = new HashMap<>();
-                    map.put("role",user1.getIsCreator());
-                    map.put("email",user1.getEmail());
-                    map.put("avatar",user1.getProfilePicStore());
-                    map.put("username",user1.getUsername());
-                    result.setData(map);
-                    return result;
 
-                }
-            }catch (Exception e) {
-                System.out.println(e.toString());
-                result.setCode(-2);
+        String email = JwtUtil.getUserEmailByToken(request);
+        try{
+            User user1 = userRepo.getUserByEmail(email);
+            String pass = user1.getPassword();
+            boolean ans = JwtUtil.verify(token,email,pass);
+            if(ans){
+
+                result.setCode(0);
+                HashMap<String,String> map = new HashMap<>();
+                map.put("role",user1.getIsCreator());
+                map.put("email",user1.getEmail());
+                map.put("avatar",user1.getProfilePicStore());
+                map.put("username",user1.getUsername());
+                result.setData(map);
                 return result;
+
             }
-
-
-
-
+        }catch (Exception e) {
+            System.out.println(e.toString());
+            result.setCode(-2);
+            return result;
         }
+
+
         result.setCode(1);
         result.setMsg("token failed");
         return result;
 
 
-
-
-        }
+    }
 
 
 
@@ -121,10 +141,11 @@ public class UserProfileController {
 //    }
 
     //getAllFavouriteList
-    @RequestMapping(value = "getFavouriteList", method = RequestMethod.POST)
+    @RequestMapping(value = "getFavouriteList", method = RequestMethod.GET)
     @CrossOrigin
-    public Result getFavouriteList(@RequestParam String email) {
+    public Result getFavouriteList(HttpServletRequest request) {
         Result result = new Result();
+        String email = JwtUtil.getUserEmailByToken(request);
         User existUser = userRepo.getUserByEmail(email);
         List<User> favouriteList = new ArrayList<>();
         List<User> users = userRepo.findAll();
@@ -135,10 +156,10 @@ public class UserProfileController {
             List<Integer> ids = new ArrayList<>();
             for (String s : str) ids.add(Integer.valueOf(s));
 
-            for (int i = 0; i < ids.size(); i++) {
-                for (int j = 0; j < users.size(); j++) {
-                    if (ids.get(i) == users.get(j).getId()) {
-                        favouriteList.add(users.get(j));
+            for (Integer id : ids) {
+                for (User user : users) {
+                    if (id == user.getId()) {
+                        favouriteList.add(user);
                         break;
                     }
                 }
@@ -146,7 +167,7 @@ public class UserProfileController {
         }
 
         result.setMsg("OK");
-        result.setCode(200);
+        result.setCode(0);
         result.setData(favouriteList);
         return result;
 
@@ -155,15 +176,16 @@ public class UserProfileController {
 
 
     //getAllSubscribeList
-    @RequestMapping(value = "getSubscribeList", method = RequestMethod.POST)
+    @RequestMapping(value = "getSubscribeList", method = RequestMethod.GET)
     @CrossOrigin
-    public Result getSubscribeList(@RequestParam String email) {
+    public Result getSubscribeList(HttpServletRequest request) {
         Result result = new Result();
+        String email = JwtUtil.getUserEmailByToken(request);
         User existUser = userRepo.getUserByEmail(email);
 
         if (existUser == null) {
             result.setMsg("wrong email address!");
-            result.setCode(400);
+            result.setCode(1);
             return result;
         }
         else {
@@ -188,7 +210,7 @@ public class UserProfileController {
 
 
 
-            result.setCode(200);
+            result.setCode(0);
             result.setData(subscribeList);
             return result;
         }
@@ -200,8 +222,9 @@ public class UserProfileController {
     //delete favourite
     @RequestMapping(value = "deleteFavouriteList", method = RequestMethod.POST)
     @CrossOrigin
-    public Result deleteFavouriteList(@RequestParam String email,@RequestParam Integer id) {
+    public Result deleteFavouriteList(HttpServletRequest request,@RequestParam Integer id) {
         Result result = new Result();
+        String email = JwtUtil.getUserEmailByToken(request);
         User existUser = userRepo.getUserByEmail(email);
 
         String now = existUser.getFavoriteId();
@@ -212,19 +235,13 @@ public class UserProfileController {
             String[] strs = favouriteList.toArray(new String[favouriteList.size()]);
             existUser.setFavoriteId(Arrays.toString(strs));
         }
-
-
-
-
+        
         result.setMsg("OK");
         result.setCode(0);
 
         return result;
 
     }
-
-
-
 
 
 

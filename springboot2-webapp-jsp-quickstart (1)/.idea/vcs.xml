@@ -3,5 +3,6 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/main/java/net/guides/springboot2/springboot2webappjsp/gt3-server-maven-sdk" vcs="Git" />
   </component>
 </project>

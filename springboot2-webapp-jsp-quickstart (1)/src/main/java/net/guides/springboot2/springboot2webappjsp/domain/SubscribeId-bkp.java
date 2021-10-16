@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class SubscribeId implements Serializable {
+class SubscribeId implements Serializable {
     private static final long serialVersionUID = -516102931790501845L;
     @Column(name = "subscirbe_id", nullable = false)
     private Integer subscirbeId;

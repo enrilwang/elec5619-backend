@@ -2,6 +2,7 @@ package net.guides.springboot2.springboot2webappjsp.domain;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.Set;
 
 @Table(name = "user")
 @Entity
@@ -47,10 +48,10 @@ public class User {
     @Column(name = "subscribe_id", length = 1024)
     private String subscribeId;
 
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "artifact_id")
-    private Set<Artifact> artifacts;
+//
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "artifact_id")
+//    private Set<Artifact> artifacts;
 
 
 
