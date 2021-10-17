@@ -11,6 +11,7 @@ public class FileUploader {
 
     public String fileUpload(MultipartFile file, String storePath) {
         //File upload path
+        //Change file upload path for an input variable
 
         //Using original filename
         String storeName = file.getOriginalFilename();

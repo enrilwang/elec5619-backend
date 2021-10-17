@@ -9,15 +9,13 @@ import java.time.Instant;
 import java.util.List;
 
 @RestController
-@RequestMapping("work/category")
+@RequestMapping("works/category")
 public class CategoryController {
 
     @Autowired
-    private CategoryRepository categoryRepo;
+    CategoryRepository categoryRepo;
 
     public CategoryController() {
-
-        
 
     }
 
@@ -25,8 +23,7 @@ public class CategoryController {
     //default method
     @GetMapping
     public Result getAll() {
-        Result result = new Result();
-        result.setCode(0);
+        Result result = new Result(0, "Query success!");
         result.setData(this.categoryRepo.findAllId());
         return result;
     }

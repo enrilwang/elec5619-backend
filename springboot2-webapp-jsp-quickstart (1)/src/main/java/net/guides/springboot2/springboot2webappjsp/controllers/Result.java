@@ -6,7 +6,6 @@ public class Result {
     private int code;
     private String msg;
     private Object data;
-
     private String token;
 
     public Result() {
@@ -21,6 +20,7 @@ public class Result {
     public int getCode() {
         return code;
     }
+
     public void setCode(int code) {
         this.code = code;
     }
@@ -40,7 +40,6 @@ public class Result {
     public void setData(Object data) {
         this.data = data;
     }
-
 
     public String getToken() {
         return token;

@@ -19,10 +19,8 @@ public class Artifact {
     //@NotNull(message = "User_id can't be empty!")
     private User user;
 
-
-
-    @Column(name = "store_location", nullable = false)
-    @NotBlank(message = "Please define store location!")
+    @Column(name = "store_location")
+    //@NotBlank(message = "Please define store location!")
     private String storeLocation;
 
     @Column(name = "title", nullable = false)
@@ -32,6 +30,8 @@ public class Artifact {
     @Column(name = "description")
     private String description;
 
+    //artifact weights represent visibility
+    //0 for public, 1 for subscribe user
     @Column(name = "artifact_weights")
     private Integer artifactWeights;
 
