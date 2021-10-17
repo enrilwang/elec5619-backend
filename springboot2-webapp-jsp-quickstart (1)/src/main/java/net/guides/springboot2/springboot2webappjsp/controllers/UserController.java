@@ -1,15 +1,12 @@
 package net.guides.springboot2.springboot2webappjsp.controllers;
 import net.guides.springboot2.springboot2webappjsp.configuration.JwtUtil;
-import net.guides.springboot2.springboot2webappjsp.sdk.GeetestConfig;
-import net.guides.springboot2.springboot2webappjsp.sdk.GeetestLib;
+import net.guides.springboot2.springboot2webappjsp.domain.Artifact;
+import net.guides.springboot2.springboot2webappjsp.repositories.ArtifactRepository;
 import org.springframework.util.DigestUtils;
 import net.guides.springboot2.springboot2webappjsp.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import net.guides.springboot2.springboot2webappjsp.repositories.UserRepository;
-
-import javax.servlet.http.HttpServletRequest;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -25,14 +22,41 @@ import java.util.regex.Pattern;
 public class UserController {
 	@Autowired
 	UserRepository userRepo;
+	ArtifactRepository artifactRepository;
 
 
-	@RequestMapping("/login/oauth2")
-	public String loginWithFB() {
-		return "good";
+	@RequestMapping(value = "searchName", method = RequestMethod.POST)
+	@CrossOrigin
+	public Result searchByName(@RequestParam String name) {
+		Result result = new Result();
+		List<User> users = userRepo.findByUserName(name);
+		List<User> res = new ArrayList<>();
+//		get creator user
+		for (User s:users) {
+			System.out.println("userName: " + s.getUsername());
+			if (s.getIsCreator().equals("creator")) {
+				res.add(s);
+			}
+		}
+		List<List<Artifact>> res1 = new ArrayList<>();
+		for (User s : res) {
+			List<Map<String,Object>> art = artifactRepository.findByUserId(s.getId()) ;
+			System.out.println(art);
+//			res1.add(art);
+		}
 
+		HashMap<User, List<Artifact>> go = new HashMap<>();
+		for (int i = 0; i < res1.size();i++) {
+			go.put(res.get(i), res1.get(i));
+		}
 
+		result.setCode(0);
+		result.setMsg("OK");
+		result.setData(go);
+
+		return result;
 	}
+
 
 
 	@RequestMapping(value = "register", method = RequestMethod.POST)
@@ -75,7 +99,7 @@ public class UserController {
 		newUser.setRegisterTime(format);
 		newUser.setIsCreator("user");
 		newUser.setIsAdmin("user");
-		newUser.setProfilePicStore("https://s.pximg.net/common/images/no_profile_s.png");
+		newUser.setProfilePicStore("/api/profilePicture/default.png");
 		float b = 0.0f;
 		newUser.setAccountBalance(b);
 
@@ -141,11 +165,11 @@ public class UserController {
 
 
 	//User log out
-	@RequestMapping(value = "userlogout", produces = "application/json", method = RequestMethod.GET)
+	@RequestMapping(value = "userlogout",  method = RequestMethod.POST)
 	@CrossOrigin
-	public Result logout(HttpServletRequest request) {
+	public Result logout() {
 		Result result = new Result();
-		System.out.println("WWWWWWWW");
+
 		result.setMsg("logout successfully! ");
 		result.setCode(0);
 		return result;

@@ -1,25 +1,25 @@
 package net.guides.springboot2.springboot2webappjsp.controllers;
 
 import net.guides.springboot2.springboot2webappjsp.configuration.JwtUtil;
+import net.guides.springboot2.springboot2webappjsp.domain.Artifact;
+import net.guides.springboot2.springboot2webappjsp.domain.Category;
 import net.guides.springboot2.springboot2webappjsp.domain.User;
+import net.guides.springboot2.springboot2webappjsp.repositories.ArtifactRepository;
 import net.guides.springboot2.springboot2webappjsp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @RestController
 public class UserProfileController {
     @Autowired
     UserRepository userRepo;
-
+    ArtifactRepository artifactRepository;
     //change password
     @RequestMapping(value = "changeNameAndPassword", method = RequestMethod.POST)
     @CrossOrigin
@@ -116,29 +116,45 @@ public class UserProfileController {
 
 
 
-//    //add profile picture
-//    @RequestMapping(value = "api/addProfilePicture", method = RequestMethod.POST)
-//    @CrossOrigin
-//    public Result addProfilePicture(@RequestParam String email,  @RequestParam String newPassword, @RequestParam String name) {
-//        Result result = new Result();
-//        User existUser = userRepo.getUserByEmail(email);
-//
-//        if (existUser == null) {
-//            result.setMsg("wrong email address!");
-//            result.setCode(400);
-//            return result;
-//        }
-//        else {
-//            existUser.setPassword(DigestUtils.md5DigestAsHex(newPassword.getBytes()));
-//            existUser.setName(name);
-//            userRepo.save(existUser);
-//            result.setMsg("change password successfully");
-//            result.setCode(201);
-//            return result;
-//        }
-//
-//
-//    }
+    //add profile picture
+    @RequestMapping(value = "addProfilePicture", method = RequestMethod.POST)
+    @CrossOrigin
+    public Result addArtifact(HttpServletRequest request,
+            @RequestParam("file") MultipartFile file){
+
+        //fill in token
+        String email = JwtUtil.getUserEmailByToken(request);
+        User user;
+        try {
+            user = userRepo.getUserByEmail(email);
+        } catch (NullPointerException | EmptyResultDataAccessException | NoSuchElementException exception) {
+            return new Result(1,"No such user!");
+        }
+
+        //method for file upload
+        FileUploader fileUploader = new FileUploader();
+        String path = fileUploader.fileUpload(file,"C:/Users/ASUS/Desktop/elec5619-backend/springboot2-webapp-jsp-quickstart (1)/src/main/resources/resources/profilePicture");
+
+        String[] gg = path.split("\\\\");
+        String last = gg[gg.length-1];
+        String newPath = "/api/profilePicture/" + last.substring(0,last.length()/2);
+
+        if (path.equals("fail")) {
+            return new Result(1, "File upload fail!");
+        } else {
+            user.setProfilePicStore(newPath);
+        }
+
+
+        try {
+            this.userRepo.save(user);
+            return new Result(0, "change success!");
+        } catch (Exception e) {
+            return new Result(1, "Saving fail!");
+        }
+
+
+    }
 
     //getAllFavouriteList
     @RequestMapping(value = "getFavouriteList", method = RequestMethod.GET)
@@ -165,6 +181,20 @@ public class UserProfileController {
                 }
             }
         }
+
+        List<List<Artifact>> res1 = new ArrayList<>();
+        for (User s : favouriteList) {
+            List<Artifact> art = artifactRepository.findAllArtifact(s.getId());
+            res1.add(art);
+        }
+
+        HashMap<User, List<Artifact>> go = new HashMap<>();
+        for (int i = 0; i < res1.size();i++) {
+            go.put(favouriteList.get(i), res1.get(i));
+        }
+
+
+
 
         result.setMsg("OK");
         result.setCode(0);
@@ -194,13 +224,18 @@ public class UserProfileController {
 
 
             String now = existUser.getSubscribeId();
+            now  = now.substring(1,now.length()-1);
+
+
             if (now != null) {
-                String[] str = now.split(",");
+                String[] str = now.split(", ");
                 List<Integer> ids = new ArrayList<>();
                 for (String s : str) ids.add(Integer.valueOf(s));
+
                 for (int i = 0; i < ids.size(); i++) {
                     for (int j = 0; j < users.size(); j++) {
-                        if (ids.get(i) == users.get(j).getId()) {
+                        if (ids.get(i).equals(users.get(j).getId())) {
+
                             subscribeList.add(users.get(j));
                             break;
                         }
@@ -208,10 +243,24 @@ public class UserProfileController {
                 }
             }
 
+            List<List<Artifact>> res1 = new ArrayList<>();
+            for (User s : subscribeList) {
+                System.out.println("getID" + s.getId());
+                List<Artifact> art = artifactRepository.findAllArtifact(s.getId());
+                res1.add(art);
+            }
+
+            HashMap<User, List<Artifact>> go = new HashMap<>();
+            for (int i = 0; i < res1.size();i++) {
+                go.put(subscribeList.get(i), res1.get(i));
+            }
+
 
 
             result.setCode(0);
-            result.setData(subscribeList);
+            result.setMsg("OK！！");
+
+            result.setData(go);
             return result;
         }
 

@@ -9,7 +9,7 @@ import java.time.Instant;
 import java.util.List;
 
 @RestController
-@RequestMapping("category")
+@RequestMapping("work/category")
 public class CategoryController {
 
     @Autowired
@@ -24,14 +24,18 @@ public class CategoryController {
     //method for listing existing category
     //default method
     @GetMapping
-    public @ResponseBody List<String> getAll() {
-        return this.categoryRepo.findAllId();
+    public Result getAll() {
+        Result result = new Result();
+        result.setCode(0);
+        result.setData(this.categoryRepo.findAllId());
+        return result;
     }
 
     //test method for find
     @GetMapping("/{id}")
     public Result find(@PathVariable(value = "id") String id) {
         Result result = new Result();
+        result.setCode(0);
         result.setData(this.categoryRepo.findById(id));
         return result;
     }

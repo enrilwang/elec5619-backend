@@ -9,9 +9,9 @@ public class FileUploader {
     //Return store path if success
     //Return "fail" if fail
 
-    public String fileUpload(MultipartFile file) {
+    public String fileUpload(MultipartFile file, String storePath) {
         //File upload path
-        String storePath = "C:/Users/Ning/IdeaProjects/springboot2-webapp-jsp/src/main/static/images";
+
         //Using original filename
         String storeName = file.getOriginalFilename();
         //New file store path

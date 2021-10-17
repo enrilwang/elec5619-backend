@@ -48,10 +48,10 @@ public class User {
     @Column(name = "subscribe_id", length = 1024)
     private String subscribeId;
 
-//
-//    @OneToMany(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "artifact_id")
-//    private Set<Artifact> artifacts;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "artifact_id")
+    private Set<Artifact> artifacts;
 
 
 

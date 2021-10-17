@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
@@ -18,10 +19,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/login")
                 .excludePathPatterns("/register")
-                .excludePathPatterns("/login/oauth2")
-                .excludePathPatterns("/logout")
-                .excludePathPatterns("/startCaptcha")
-                .excludePathPatterns("/verifyLogin");
+                .excludePathPatterns("/startCaptcha");
 //                .excludePathPatterns("/getUserInfo");
     }
 
@@ -40,4 +38,8 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .allowedHeaders(CorsConfiguration.ALL).allowedMethods(CorsConfiguration.ALL)
                 .maxAge(3600 * 24);
     }
+
+
+
+
 }

@@ -111,21 +111,28 @@ public class ArtifactController {
         } else {
             //Saving object
             Artifact artifact = new Artifact();
-            artifact.setUser(user);
             try {
                 Optional<Category> categories = categoryRepo.findById(category_name);
                 artifact = new Artifact(title,description,categories.get());
+                artifact.setUser(user);
+
             } catch (NullPointerException | EmptyResultDataAccessException | NoSuchElementException exception) {
                 return new Result(1, "Request category not exist!");
             }
 
             //method for file upload
             FileUploader fileUploader = new FileUploader();
-            String path = fileUploader.fileUpload(file);
+            String path = fileUploader.fileUpload(file,"C:/Users/ASUS/Desktop/elec5619-backend/springboot2-webapp-jsp-quickstart (1)/src/main/resources/resources/post");
+
+            String[] gg = path.split("\\\\");
+            String last = gg[gg.length-1];
+
+            String newPath = "/api/post/" +  last.substring(0,last.length()/2);
+
             if (path.equals("fail")) {
                 return new Result(1, "File upload fail!");
             } else {
-                artifact.setStoreLocation(path);
+                artifact.setStoreLocation(newPath);
             }
 
             //default artifact weight is 0
@@ -135,6 +142,7 @@ public class ArtifactController {
                 this.artifactRepo.save(artifact);
                 return new Result(0, "Post success!");
             } catch (Exception e) {
+                e.printStackTrace();
                 return new Result(1, "Saving fail!");
             }
         }

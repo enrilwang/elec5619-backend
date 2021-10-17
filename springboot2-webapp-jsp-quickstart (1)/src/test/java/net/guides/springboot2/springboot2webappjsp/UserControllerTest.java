@@ -54,8 +54,8 @@ public class UserControllerTest extends BaseTest{
     @MockBean
     private UserRepository userRepository;
 
-    @Mock
-    private GeetestLib gtSdk = spy(new GeetestLib("","",true));
+//    @Mock
+//    private GeetestLib gtSdk = spy(new GeetestLib("","",true));
 
 
     @Before
@@ -67,15 +67,7 @@ public class UserControllerTest extends BaseTest{
         Mockito.when(userRepository.save(user)).thenReturn(user);
         Mockito.when(userRepository.getUserByEmail(user.getEmail())).thenReturn(user);
 
-        Mockito.when(gtSdk.gtServerStatusSessionKey).thenReturn(String.valueOf(1));
-        HashMap<String, String> param = new HashMap<String, String>();
-        param.put("user_id", "userid");
-        param.put("client_type", "web");
-        param.put("ip_address", "127.0.0.1");
 
-
-        Mockito.when(gtSdk.enhencedValidateRequest("1","1","1",param)).thenReturn(1);
-//        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
 
@@ -97,8 +89,6 @@ public class UserControllerTest extends BaseTest{
         user1.setEmail("544433@qq.com");
         user1.setUsername("rick");
         user1.setPassword( DigestUtils.md5DigestAsHex("543666".getBytes()));
-
-
 
         Mockito.when(userRepository.save(user)).thenReturn(user);
         Mockito.when(userRepository.getUserByEmail(user.getEmail())).thenReturn(user1);
@@ -299,14 +289,12 @@ public class UserControllerTest extends BaseTest{
         user.setPassword("543666");
 
 
-//        Mockito.when(userRepository.save(user)).thenReturn(user);
-        //Mockito.when(userRepository.getUserByEmail(user.getEmail())).thenReturn(user);
-        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/logout").contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON);
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/userlogout").contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsString(user));
 
         MvcResult result = mockMvc.perform(mockRequest).andReturn();
         MockHttpServletResponse response = result.getResponse();
         String[] ans = response.getContentAsString().split(",");
-        Assert.assertEquals("\"msg\":\"register successful\"", ans[0] );
+        Assert.assertEquals("\"msg\":\"logout successfully! \"", ans[1] );
 
 
     }

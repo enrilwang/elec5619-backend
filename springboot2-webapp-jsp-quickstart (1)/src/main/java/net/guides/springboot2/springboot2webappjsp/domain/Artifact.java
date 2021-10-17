@@ -19,6 +19,8 @@ public class Artifact {
     //@NotNull(message = "User_id can't be empty!")
     private User user;
 
+
+
     @Column(name = "store_location", nullable = false)
     @NotBlank(message = "Please define store location!")
     private String storeLocation;
