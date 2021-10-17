@@ -39,7 +39,7 @@ public class SubscribeController {
 
     //C
     @PostMapping(path)
-    public Result postSubscribe(HttpServletRequest request, @RequestBody Subscribe subscribe) {
+    public Result postSubscribe(HttpServletRequest request, @RequestBody Subscribe subscribe, @RequestParam int month) {
         Result result = new Result();
         User userQueryResult;
         SubscriptionType subscriptionTypeQueryResult;
@@ -94,6 +94,12 @@ public class SubscribeController {
             result.setCode(1);
             return result;
         }
+        
+        if (month < 0) {
+            result.setMsg("Month number shoud be a positive integer.");
+            result.setCode(1);
+            return result;
+        }
 
         //validate logic
         //check is activated
@@ -120,7 +126,7 @@ public class SubscribeController {
         System.out.println(userQueryResult.getId());
         System.out.println(userQueryResult.getAccountBalance());
         System.out.println(price);
-        if (userQueryResult.getAccountBalance() < price) {
+        if (userQueryResult.getAccountBalance() < price*month) {
             result.setMsg("Account balance is not enough.");
             result.setCode(1);
             return result;
@@ -184,13 +190,13 @@ public class SubscribeController {
 
         //check period
         if (subscribe.getSubscribeType() == 0) {
-            currentDate.setMonth(currentDate.getMonth() + 1);
+            currentDate.setMonth(currentDate.getMonth() + 1*month);
         }
         if (subscribe.getSubscribeType() == 1) {
-            currentDate.setMonth(currentDate.getMonth() + 1);
+            currentDate.setMonth(currentDate.getMonth() + 1*month);
         }
         if (subscribe.getSubscribeType() == 2) {
-            currentDate.setYear(currentDate.getMonth() + 1);
+            currentDate.setYear(currentDate.getMonth() + 1*month);
         }
         String endTime = sdf.format(currentDate);
 
@@ -217,7 +223,7 @@ public class SubscribeController {
 
         System.out.println("now updating balance and subscribe list");
         //update user balance & add subscribe id
-        userQueryResult.setAccountBalance(userQueryResult.getAccountBalance() - price);
+        userQueryResult.setAccountBalance(userQueryResult.getAccountBalance() - price*month);
         Set<Integer> newSubscribeId = IntArrayStringToIntArray.intArrayStringToIntArray(userQueryResult.getSubscribeId());
         newSubscribeId.add(subscribeInsertResult.getCreatorId());
         userQueryResult.setSubscribeId(newSubscribeId.toString());
