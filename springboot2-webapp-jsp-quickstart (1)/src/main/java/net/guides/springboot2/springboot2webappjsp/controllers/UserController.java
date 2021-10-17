@@ -1,12 +1,20 @@
 package net.guides.springboot2.springboot2webappjsp.controllers;
+
 import net.guides.springboot2.springboot2webappjsp.configuration.JwtUtil;
 import net.guides.springboot2.springboot2webappjsp.domain.Artifact;
+import net.guides.springboot2.springboot2webappjsp.domain.Subscribe;
+import net.guides.springboot2.springboot2webappjsp.domain.SubscriptionType;
 import net.guides.springboot2.springboot2webappjsp.repositories.ArtifactRepository;
+import net.guides.springboot2.springboot2webappjsp.repositories.SubscribeRepository;
+import net.guides.springboot2.springboot2webappjsp.repositories.SubscriptionTypeRepository;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.util.DigestUtils;
 import net.guides.springboot2.springboot2webappjsp.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import net.guides.springboot2.springboot2webappjsp.repositories.UserRepository;
+
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -22,8 +30,32 @@ import java.util.regex.Pattern;
 public class UserController {
 	@Autowired
 	UserRepository userRepo;
+	@Autowired
 	ArtifactRepository artifactRepository;
+	@Autowired
+	SubscribeRepository sp;
+	@Autowired
+	SubscriptionTypeRepository subscriptionTypeRepository;
 
+
+	//method for opening artifact page
+	@RequestMapping(value = "getAllArtifactById", method = RequestMethod.GET)
+	@CrossOrigin
+	public Result getAllArtifactById(@RequestParam Integer id) {
+
+		try {
+			List<Map<String,Object>> artifacts = artifactRepository.findByUserId(id);
+			if (artifacts.size() != 0) {
+				Result result = new Result(0, "Query success!");
+				result.setData(artifacts);
+				return result;
+			} else {
+				return new Result(1, "No work exist!");
+			}
+		} catch (NullPointerException | EmptyResultDataAccessException | NoSuchElementException exception){
+			return new Result(1, "Request fail!");
+		}
+	}
 
 	@RequestMapping(value = "searchName", method = RequestMethod.POST)
 	@CrossOrigin
@@ -39,23 +71,128 @@ public class UserController {
 			}
 		}
 		List<List<Artifact>> res1 = new ArrayList<>();
+		List<Artifact> all = artifactRepository.findAll();
 		for (User s : res) {
-			List<Map<String,Object>> art = artifactRepository.findByUserId(s.getId()) ;
+			List<Artifact> art = new ArrayList<>() ;
+			for (Artifact a : all) {
+				if (a.getUser().getId().equals(s.getId())) {
+					art.add(a);
+				}
+			}
+
 			System.out.println(art);
-//			res1.add(art);
+			res1.add(art);
 		}
 
-		HashMap<User, List<Artifact>> go = new HashMap<>();
-		for (int i = 0; i < res1.size();i++) {
-			go.put(res.get(i), res1.get(i));
-		}
+//		HashMap<User, List<Artifact>> go = new HashMap<>();
+//		for (int i = 0; i < res1.size();i++) {
+//			go.put(res.get(i), res1.get(i));
+//		}
 
 		result.setCode(0);
 		result.setMsg("OK");
-		result.setData(go);
+		result.setData(res1);
 
 		return result;
 	}
+
+//	check this user has subscribe or favourite of the creator
+	@RequestMapping(value = "getUserById", method = RequestMethod.GET)
+	@CrossOrigin
+	public Result getUserById(HttpServletRequest request, @RequestParam Integer id) {
+		Result result = new Result();
+
+		String email = JwtUtil.getUserEmailByToken(request);
+		if (email == null) {
+
+			User user;
+			try {
+				user = userRepo.getUserById(id);
+			}catch (NullPointerException | EmptyResultDataAccessException | NoSuchElementException exception) {
+				result.setMsg("get unsuccessful");
+				result.setCode(1);
+				return result;
+			}
+
+
+			List<Subscribe> currentsub =  sp.getSubscribeByCreatorId(id);
+
+
+			SubscriptionType type = subscriptionTypeRepository.getSubscriptionTypeByUserId(id);
+
+
+			HashMap<String,Object> res = new HashMap<>();
+			res.put("user",user);
+			res.put("subscribeType",type);
+			res.put("subscribtionList", currentsub);
+
+			result.setMsg("get successful");
+			result.setCode(0);
+			result.setData(res);
+			return result;
+		}else {
+			User currentUser = userRepo.getUserByEmail(email);
+			User user;
+			try {
+				user = userRepo.getUserById(id);
+			}catch (NullPointerException | EmptyResultDataAccessException | NoSuchElementException exception) {
+				result.setMsg("get unsuccessful");
+				result.setCode(1);
+				return result;
+			}
+
+			boolean favourite = false;
+			boolean sub =false;
+//		get favourite
+
+			String subList = currentUser.getSubscribeId();
+			String faList = currentUser.getFavoriteId();
+			if (faList != null) {
+				for(int i = 0;i < faList.length(); i++) {
+					if (faList.charAt(i) ==  String.valueOf(user.getId()).charAt(0) ) {
+						System.out.println("got it");
+						favourite = true;
+					}
+				}
+			}
+
+//		get subscribe
+
+			List<Subscribe> currentsub =  sp.getSubscribeByCreatorId(id);
+			if (subList != null) {
+				for(int i = 0;i < subList.length(); i++) {
+					if (subList.charAt(i) ==  String.valueOf(user.getId()).charAt(0) ) {
+						System.out.println("got it");
+						sub = true;
+					}
+				}
+			}
+
+
+
+			SubscriptionType type = subscriptionTypeRepository.getSubscriptionTypeByUserId(id);
+
+
+			List<Subscribe> currentsubList = sp.getSubscribeByUserIdAndCreatorIdAndActivated(currentUser.getId(),id,true);
+
+			HashMap<String,Object> res = new HashMap<>();
+			res.put("user",user);
+			res.put("subscribeType",type);
+			res.put("subscribtionList", currentsub);
+			res.put("favourite", favourite);
+			res.put("userSubscirbtionList",currentsubList);
+			result.setMsg("get successful");
+			result.setCode(0);
+			result.setData(res);
+			return result;
+		}
+
+
+
+	}
+
+
+
 
 
 

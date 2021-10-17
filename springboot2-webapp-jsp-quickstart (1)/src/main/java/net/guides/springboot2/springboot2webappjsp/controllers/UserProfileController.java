@@ -19,7 +19,10 @@ import java.util.*;
 public class UserProfileController {
     @Autowired
     UserRepository userRepo;
+    @Autowired
     ArtifactRepository artifactRepository;
+
+
     //change password
     @RequestMapping(value = "changeNameAndPassword", method = RequestMethod.POST)
     @CrossOrigin
@@ -188,17 +191,15 @@ public class UserProfileController {
             res1.add(art);
         }
 
-        HashMap<User, List<Artifact>> go = new HashMap<>();
-        for (int i = 0; i < res1.size();i++) {
-            go.put(favouriteList.get(i), res1.get(i));
-        }
-
-
+//        HashMap<User, List<Artifact>> go = new HashMap<>();
+//        for (int i = 0; i < res1.size();i++) {
+//            go.put(favouriteList.get(i), res1.get(i));
+//        }
 
 
         result.setMsg("OK");
         result.setCode(0);
-        result.setData(favouriteList);
+        result.setData(res1);
         return result;
 
     }
@@ -249,18 +250,18 @@ public class UserProfileController {
                 List<Artifact> art = artifactRepository.findAllArtifact(s.getId());
                 res1.add(art);
             }
-
-            HashMap<User, List<Artifact>> go = new HashMap<>();
-            for (int i = 0; i < res1.size();i++) {
-                go.put(subscribeList.get(i), res1.get(i));
-            }
+//
+//            HashMap<User, List<Artifact>> go = new HashMap<>();
+//            for (int i = 0; i < res1.size();i++) {
+//                go.put(subscribeList.get(i), res1.get(i));
+//            }
 
 
 
             result.setCode(0);
             result.setMsg("OK！！");
 
-            result.setData(go);
+            result.setData(res1);
             return result;
         }
 
