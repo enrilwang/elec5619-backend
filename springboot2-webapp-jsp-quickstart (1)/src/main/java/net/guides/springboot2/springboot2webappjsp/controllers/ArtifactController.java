@@ -7,7 +7,6 @@ import net.guides.springboot2.springboot2webappjsp.domain.User;
 import net.guides.springboot2.springboot2webappjsp.repositories.ArtifactRepository;
 import net.guides.springboot2.springboot2webappjsp.repositories.CategoryRepository;
 import net.guides.springboot2.springboot2webappjsp.repositories.UserRepository;
-import org.mockito.internal.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.util.StringUtils;
