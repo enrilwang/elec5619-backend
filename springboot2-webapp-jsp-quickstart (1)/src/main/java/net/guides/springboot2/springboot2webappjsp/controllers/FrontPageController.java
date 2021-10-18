@@ -22,7 +22,7 @@ public class FrontPageController {
     @GetMapping
     public Result defaultPage() {
         //find all public works
-        ArrayList<Map<String, Object>> allPublicWorks = (ArrayList<Map<String, Object>>) artifactRepo.findByArtifactWeights();
+        List<Map<String, Object>> allPublicWorks = artifactRepo.findByDistinctUserId();
         Result result = new Result();
 
         for (int i = 0; i < allPublicWorks.size(); i++) {
@@ -44,9 +44,16 @@ public class FrontPageController {
             }
         }
 
+        //Return 6 objects to frontend
+        if (allPublicWorks.size() > 6) {
+            for (int i = 6; i < allPublicWorks.size(); i++) {
+                allPublicWorks.remove(i);
+            }
+        }
+
         result.setCode(0);
         result.setMsg("Query success!");
-        //random return information
+        //randomly shuffle information
         Collections.shuffle(allPublicWorks);
         result.setData(allPublicWorks);
         return result;

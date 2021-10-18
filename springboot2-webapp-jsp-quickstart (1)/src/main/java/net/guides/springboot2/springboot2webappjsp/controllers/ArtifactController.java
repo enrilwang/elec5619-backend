@@ -7,7 +7,6 @@ import net.guides.springboot2.springboot2webappjsp.domain.User;
 import net.guides.springboot2.springboot2webappjsp.repositories.ArtifactRepository;
 import net.guides.springboot2.springboot2webappjsp.repositories.CategoryRepository;
 import net.guides.springboot2.springboot2webappjsp.repositories.UserRepository;
-import org.mockito.internal.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.util.StringUtils;
@@ -117,9 +116,14 @@ public class ArtifactController {
                 } catch (NullPointerException | EmptyResultDataAccessException | NoSuchElementException exception) {
                     return new Result(1, "Request category not exist!");
                 }
-                if (weight != 0) {
-                    artifact.setArtifactWeights(1);
-                } else {
+                try {
+                    if (weight != 0) {
+                        artifact.setArtifactWeights(1);
+                    } else {
+                        //default public
+                        artifact.setArtifactWeights(0);
+                    }
+                } catch (NullPointerException npe) {
                     //default public
                     artifact.setArtifactWeights(0);
                 }
@@ -165,9 +169,14 @@ public class ArtifactController {
                 artifact.setStoreLocation(newPath);
             }
 
-            if (weight != 0) {
-                artifact.setArtifactWeights(1);
-            } else {
+            try {
+                if (weight != 0) {
+                    artifact.setArtifactWeights(1);
+                } else {
+                    //default public
+                    artifact.setArtifactWeights(0);
+                }
+            } catch (NullPointerException npe) {
                 //default public
                 artifact.setArtifactWeights(0);
             }

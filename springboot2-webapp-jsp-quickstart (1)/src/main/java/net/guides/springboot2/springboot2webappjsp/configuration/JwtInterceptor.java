@@ -27,9 +27,9 @@ public class JwtInterceptor implements HandlerInterceptor {
 
         String token = request.getHeader("Authorization");
         System.out.println(" token,access " + token);
-        if(!(handler instanceof HandlerMethod)){
-            return true;
-        }
+//        if(!(handler instanceof HandlerMethod)){
+//            return true;
+//        }
         if (token != null){
             String email = JwtUtil.getUserEmailByToken(request);
 

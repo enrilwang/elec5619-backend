@@ -95,6 +95,7 @@ public class UserProfileController {
                 map.put("email",user1.getEmail());
                 map.put("avatar",user1.getProfilePicStore());
                 map.put("username",user1.getUsername());
+                map.put("id",String.valueOf(user1.getId()));
                 result.setData(map);
                 return result;
 
@@ -277,8 +278,8 @@ public class UserProfileController {
         String email = JwtUtil.getUserEmailByToken(request);
         User existUser = userRepo.getUserByEmail(email);
 
-//        Integer idd = Integer.valueOf(favouriteUserId.substring(7,8));
-        System.out.println("Nnow id" + favouriteUserId);
+        String idd = favouriteUserId.substring(7,8);
+        System.out.println("Nnow id" + favouriteUserId.length());
         String now = existUser.getFavoriteId();
         now  = now.substring(1,now.length()-1);
         StringBuilder sb = new StringBuilder();
@@ -286,7 +287,7 @@ public class UserProfileController {
         if (now != null) {
             String[] str = now.split(", ");
             for (int i = 0; i < str.length; i++) {
-                if (str[i].equals(favouriteUserId)) {
+                if (str[i].equals(idd)) {
                     System.out.println("equal ID" + str[i]);
                     continue;
                 }
