@@ -43,9 +43,9 @@ public class SubscribeTypeController {
 
 //    private int subscriptionTypeId;
 //    private int userId;
-//    private float tier_0;
-//    private float tier_1;
-//    private float tier_2;
+//    private float photo;
+//    private float music;
+//    private float art;
 
     @PostMapping(path)
     public Result addPrice(HttpServletRequest request, @RequestBody SubscriptionType subscriptionType){
@@ -62,13 +62,12 @@ public class SubscribeTypeController {
         }else{
             subscriptionType.getSubscriptionTypeId();
         }
+        System.out.println("art ===" + subscriptionType.getArt());
+        existedSubscriptionTypeQueryResult.setArt(subscriptionType.getArt());
+        existedSubscriptionTypeQueryResult.setMusic(subscriptionType.getMusic());
+        existedSubscriptionTypeQueryResult.setPhoto(subscriptionType.getPhoto());
 
-        SubscriptionType newSubscriptionType=new SubscriptionType(subscriptionId,
-                                                                  userQueryResult.getId(),
-                                                                  subscriptionType.getTier_0(),
-                                                                  subscriptionType.getTier_1(),
-                                                                  subscriptionType.getTier_2());
-        SubscriptionType saveResult=subscriptionTypeRepo.save(newSubscriptionType);
+        SubscriptionType saveResult=subscriptionTypeRepo.save(existedSubscriptionTypeQueryResult);
         if (saveResult==null){
             result.setMsg("add failed");
             result.setCode(1);

@@ -82,8 +82,6 @@ public class UserProfileController {
         Result result = new Result();
         String token = request.getHeader("Authorization");
 
-
-
         String email = JwtUtil.getUserEmailByToken(request);
         try{
             User user1 = userRepo.getUserByEmail(email);
@@ -122,7 +120,7 @@ public class UserProfileController {
     //add profile picture
     @RequestMapping(value = "addProfilePicture", method = RequestMethod.POST)
     @CrossOrigin
-    public Result addArtifact(HttpServletRequest request,
+    public Result addProfilePicture(HttpServletRequest request,
             @RequestParam("file") MultipartFile file){
 
         //fill in token
@@ -168,9 +166,11 @@ public class UserProfileController {
         User existUser = userRepo.getUserByEmail(email);
         List<User> favouriteList = new ArrayList<>();
         List<User> users = userRepo.findAll();
-        String now = existUser.getFavoriteId();
+
+        String now = existUser.getSubscribeId();
+        now  = now.substring(1,now.length()-1);
         if (now != null) {
-            String[] str = now.split(",");
+            String[] str = now.split(", ");
 
             List<Integer> ids = new ArrayList<>();
             for (String s : str) ids.add(Integer.valueOf(s));
@@ -272,18 +272,45 @@ public class UserProfileController {
     //delete favourite
     @RequestMapping(value = "deleteFavouriteList", method = RequestMethod.POST)
     @CrossOrigin
-    public Result deleteFavouriteList(HttpServletRequest request,@RequestParam Integer id) {
+    public Result deleteFavouriteList(HttpServletRequest request,@RequestParam String favouriteUserId) {
         Result result = new Result();
         String email = JwtUtil.getUserEmailByToken(request);
         User existUser = userRepo.getUserByEmail(email);
 
+//        Integer idd = Integer.valueOf(favouriteUserId.substring(7,8));
+        System.out.println("Nnow id" + favouriteUserId);
         String now = existUser.getFavoriteId();
+        now  = now.substring(1,now.length()-1);
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
         if (now != null) {
-            String[] str = now.split(",");
-            List<String> favouriteList = Arrays.asList(str);
-            favouriteList.remove(String.valueOf(id));
-            String[] strs = favouriteList.toArray(new String[favouriteList.size()]);
-            existUser.setFavoriteId(Arrays.toString(strs));
+            String[] str = now.split(", ");
+            for (int i = 0; i < str.length; i++) {
+                if (str[i].equals(favouriteUserId)) {
+                    System.out.println("equal ID" + str[i]);
+                    continue;
+                }
+                else {
+                    sb.append(str[i]);
+                    sb.append(",");
+                    sb.append(" ");
+                }
+
+
+            }
+
+            if (sb.length() == 1) {
+                existUser.setFavoriteId(null);
+            }else {
+                sb.deleteCharAt(sb.length()-1);
+                sb.deleteCharAt(sb.length()-1);
+                sb.append("]");
+                existUser.setFavoriteId(sb.toString());
+            }
+
+
+
+            userRepo.save(existUser);
         }
         
         result.setMsg("OK");

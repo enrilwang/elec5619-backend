@@ -59,7 +59,7 @@ public class UserController {
 
 	@RequestMapping(value = "searchName", method = RequestMethod.POST)
 	@CrossOrigin
-	public Result searchByName(@RequestParam String name) {
+	public Result searchName(@RequestParam String name) {
 		Result result = new Result();
 		List<User> users = userRepo.findByUserName(name);
 		List<User> res = new ArrayList<>();
@@ -80,14 +80,9 @@ public class UserController {
 				}
 			}
 
-			System.out.println(art);
 			res1.add(art);
 		}
 
-//		HashMap<User, List<Artifact>> go = new HashMap<>();
-//		for (int i = 0; i < res1.size();i++) {
-//			go.put(res.get(i), res1.get(i));
-//		}
 
 		result.setCode(0);
 		result.setMsg("OK");
@@ -175,12 +170,22 @@ public class UserController {
 
 			List<Subscribe> currentsubList = sp.getSubscribeByUserIdAndCreatorIdAndActivated(currentUser.getId(),id,true);
 
+			List<List<Map<String,Object>>> userScribe = new ArrayList<>();
+			if (currentsubList.size() > 0) {
+				for (Subscribe s : currentsubList) {
+					List<Map<String,Object>> temp = artifactRepository.findByUserId(s.getCreatorId());
+					userScribe.add(temp);
+				}
+			}
+
+
 			HashMap<String,Object> res = new HashMap<>();
 			res.put("user",user);
 			res.put("subscribeType",type);
 			res.put("subscribtionList", currentsub);
 			res.put("favourite", favourite);
 			res.put("userSubscirbtionList",currentsubList);
+			res.put("userSubscirbtionListArtifact",userScribe);
 			result.setMsg("get successful");
 			result.setCode(0);
 			result.setData(res);

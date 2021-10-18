@@ -107,13 +107,13 @@ public class SubscribeController {
         //set target price
         float price = 0;
         if (subscribe.getSubscribeType() == 0) {
-            price = subscriptionTypeQueryResult.getTier_0();
+            price = subscriptionTypeQueryResult.getPhoto();
         }
         if (subscribe.getSubscribeType() == 1) {
-            price = subscriptionTypeQueryResult.getTier_1();
+            price = subscriptionTypeQueryResult.getMusic();
         }
         if (subscribe.getSubscribeType() == 2) {
-            price = subscriptionTypeQueryResult.getTier_2();
+            price = subscriptionTypeQueryResult.getArt();
         }
 
         //check account balance

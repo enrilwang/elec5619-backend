@@ -19,9 +19,11 @@ public class FavoriteController {
     UserRepository userRepo;
 
     @PostMapping(path)
-    public Result addFavourite(HttpServletRequest request, @RequestParam int favouriteUserId) {
+    public Result addFavourite(HttpServletRequest request, @RequestParam String favouriteUserId) {
         Result result = new Result();
-        User favouriteUserQueryResult = userRepo.getUserById(favouriteUserId);
+        Integer idd = Integer.valueOf(favouriteUserId.substring(7,8));
+
+        User favouriteUserQueryResult = userRepo.getUserById(idd);
         if (favouriteUserQueryResult == null) {
             result.setCode(1);
             result.setMsg("No such favorite user");
@@ -36,7 +38,7 @@ public class FavoriteController {
         }
         
         Set<Integer> favoriteIds = IntArrayStringToIntArray.intArrayStringToIntArray(userQueryResult.getFavoriteId());
-        favoriteIds.add(favouriteUserId);
+        favoriteIds.add(idd);
         userQueryResult.setFavoriteId(favoriteIds.toString());
         User updateResult = userRepo.save(userQueryResult);
         if (updateResult == null) {
