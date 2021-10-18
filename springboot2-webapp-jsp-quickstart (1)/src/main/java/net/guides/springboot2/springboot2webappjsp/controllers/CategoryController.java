@@ -9,7 +9,7 @@ import java.time.Instant;
 import java.util.List;
 
 @RestController
-@RequestMapping("works/category")
+@RequestMapping("work/category")
 public class CategoryController {
 
     @Autowired

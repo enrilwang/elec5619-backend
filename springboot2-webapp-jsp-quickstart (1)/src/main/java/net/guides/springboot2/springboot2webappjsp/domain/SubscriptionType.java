@@ -21,7 +21,7 @@ public class SubscriptionType {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int subscriptionTypeId;
     private int userId;
-    private float tier_0;
-    private float tier_1;
-    private float tier_2;
+    private float photo;
+    private float music;
+    private float art;
 }

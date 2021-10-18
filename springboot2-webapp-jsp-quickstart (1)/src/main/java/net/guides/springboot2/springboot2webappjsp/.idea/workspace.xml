@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="34e4aec1-ae6b-4f71-9b43-a1138403f561" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/configuration/InterceptorConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/configuration/InterceptorConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/configuration/JwtInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/configuration/JwtInterceptor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/ArtifactController.java" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/ArtifactController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/CategoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/FavoriteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/FavoriteController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/UserProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/UserProfileController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../test/java/net/guides/springboot2/springboot2webappjsp/BaseTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../test/java/net/guides/springboot2/springboot2webappjsp/BaseTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../test/java/net/guides/springboot2/springboot2webappjsp/UserProfileControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../test/java/net/guides/springboot2/springboot2webappjsp/UserProfileControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../target/classes/net/guides/springboot2/springboot2webappjsp/configuration/InterceptorConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../target/classes/net/guides/springboot2/springboot2webappjsp/configuration/InterceptorConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../target/classes/net/guides/springboot2/springboot2webappjsp/configuration/JwtInterceptor.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../target/classes/net/guides/springboot2/springboot2webappjsp/configuration/JwtInterceptor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../target/classes/net/guides/springboot2/springboot2webappjsp/controllers/ArtifactController.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../target/classes/net/guides/springboot2/springboot2webappjsp/controllers/ArtifactController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../target/classes/net/guides/springboot2/springboot2webappjsp/controllers/CategoryController.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../target/classes/net/guides/springboot2/springboot2webappjsp/controllers/CategoryController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../target/classes/net/guides/springboot2/springboot2webappjsp/controllers/FavoriteController.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../target/classes/net/guides/springboot2/springboot2webappjsp/controllers/FavoriteController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../target/classes/net/guides/springboot2/springboot2webappjsp/controllers/FileUploader.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../target/classes/net/guides/springboot2/springboot2webappjsp/controllers/FileUploader.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../target/classes/net/guides/springboot2/springboot2webappjsp/controllers/Result.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../target/classes/net/guides/springboot2/springboot2webappjsp/controllers/Result.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../target/classes/net/guides/springboot2/springboot2webappjsp/controllers/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../target/classes/net/guides/springboot2/springboot2webappjsp/controllers/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../target/classes/net/guides/springboot2/springboot2webappjsp/controllers/UserProfileController.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../target/classes/net/guides/springboot2/springboot2webappjsp/controllers/UserProfileController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../target/classes/net/guides/springboot2/springboot2webappjsp/domain/Artifact.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../target/classes/net/guides/springboot2/springboot2webappjsp/domain/Artifact.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../target/classes/net/guides/springboot2/springboot2webappjsp/repositories/ArtifactRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../target/classes/net/guides/springboot2/springboot2webappjsp/repositories/ArtifactRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../target/test-classes/net/guides/springboot2/springboot2webappjsp/BaseTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../target/test-classes/net/guides/springboot2/springboot2webappjsp/BaseTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../target/test-classes/net/guides/springboot2/springboot2webappjsp/UserProfileControllerTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../target/test-classes/net/guides/springboot2/springboot2webappjsp/UserProfileControllerTest.class" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../../../../../.." />
+  </component>
+  <component name="ProjectId" id="1zfhUNbxDVjFpCpvwH5tAmFiBnR" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="34e4aec1-ae6b-4f71-9b43-a1138403f561" name="Changes" comment="" />
+      <created>1634545067800</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1634545067800</updated>
+      <workItem from="1634545069673" duration="151000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
