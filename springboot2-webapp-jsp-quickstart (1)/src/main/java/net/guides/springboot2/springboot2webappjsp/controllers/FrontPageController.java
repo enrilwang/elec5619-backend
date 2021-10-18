@@ -21,8 +21,13 @@ public class FrontPageController {
 
     @GetMapping
     public Result defaultPage() {
+        //find all public works(distinct creator)
+        //List<Map<String, Object>> allPublicWorks = artifactRepo.findByDistinctUserId();
+
         //find all public works
-        List<Map<String, Object>> allPublicWorks = artifactRepo.findByDistinctUserId();
+        List<Map<String, Object>> allPublicWorks = artifactRepo.findByArtifactWeights();
+        //returning data
+        List<Map<String, Object>> modifyWorks = new ArrayList<>();
         Result result = new Result();
 
         for (int i = 0; i < allPublicWorks.size(); i++) {
@@ -37,26 +42,51 @@ public class FrontPageController {
             allPublicWorks.remove(allPublicWorks.get(0));
         }
 
-        //Remove all the general article
+        //remove all the general article
         for (int i = 0; i < allPublicWorks.size(); i++) {
             if (allPublicWorks.get(i).get("category_name").equals("General")) {
                 allPublicWorks.remove(allPublicWorks.get(i));
             }
         }
 
-        //Return 6 objects to frontend
-        if (allPublicWorks.size() > 6) {
-            for (int i = 6; i < allPublicWorks.size(); i++) {
-                allPublicWorks.remove(i);
+        //remove duplicate creators
+        List<Map<String, Object>> tempDuplicate = new ArrayList<>();
+        for (Map<String, Object> publicWork : allPublicWorks) {
+            String name = publicWork.get("user_id").toString();
+            int count = 0;
+            for (Map<String, Object> temp : allPublicWorks) {
+                if (temp.get("user_id").equals(name)) {
+                    count++;
+                }
+            }
+            if (count < 2) {
+                modifyWorks.add(publicWork);
+            } else {
+                tempDuplicate.add(publicWork);
+            }
+        }
+
+        if (tempDuplicate.size() > 0) {
+            //randomly choose one record
+            Collections.shuffle(tempDuplicate);
+            modifyWorks.add(tempDuplicate.get(0));
+        }
+
+        //return 6 objects to frontend
+        if (modifyWorks.size() > 6) {
+            for (int i = 6; i < modifyWorks.size(); i++) {
+                modifyWorks.remove(i);
             }
         }
 
         result.setCode(0);
         result.setMsg("Query success!");
         //randomly shuffle information
-        Collections.shuffle(allPublicWorks);
-        result.setData(allPublicWorks);
+        Collections.shuffle(modifyWorks);
+        result.setData(modifyWorks);
         return result;
-    }
 
+        //terrible code!
+
+    }
 }
