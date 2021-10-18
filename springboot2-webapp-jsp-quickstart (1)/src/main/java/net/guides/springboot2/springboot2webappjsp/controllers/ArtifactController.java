@@ -116,9 +116,14 @@ public class ArtifactController {
                 } catch (NullPointerException | EmptyResultDataAccessException | NoSuchElementException exception) {
                     return new Result(1, "Request category not exist!");
                 }
-                if (weight != 0) {
-                    artifact.setArtifactWeights(1);
-                } else {
+                try {
+                    if (weight != 0) {
+                        artifact.setArtifactWeights(1);
+                    } else {
+                        //default public
+                        artifact.setArtifactWeights(0);
+                    }
+                } catch (NullPointerException npe) {
                     //default public
                     artifact.setArtifactWeights(0);
                 }
@@ -164,9 +169,14 @@ public class ArtifactController {
                 artifact.setStoreLocation(newPath);
             }
 
-            if (weight != 0) {
-                artifact.setArtifactWeights(1);
-            } else {
+            try {
+                if (weight != 0) {
+                    artifact.setArtifactWeights(1);
+                } else {
+                    //default public
+                    artifact.setArtifactWeights(0);
+                }
+            } catch (NullPointerException npe) {
                 //default public
                 artifact.setArtifactWeights(0);
             }

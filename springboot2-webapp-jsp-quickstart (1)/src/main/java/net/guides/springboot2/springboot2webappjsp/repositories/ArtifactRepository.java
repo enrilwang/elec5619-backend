@@ -21,6 +21,10 @@ public interface ArtifactRepository extends JpaRepository<Artifact, Integer> {
     @Query(value = "select user_id, title, description, category_name, store_location from artifact where artifact_weights = 0", nativeQuery = true)
     List<Map<String,Object>> findByArtifactWeights();
 
+    //search for all public works(distinct creator)
+    @Query(value = "select user_id, title, description, category_name, store_location from artifact where artifact_weights = 0 group by user_id", nativeQuery = true)
+    List<Map<String,Object>> findByDistinctUserId();
+
 
     @Query(value = "select * from artifact where user_id = ?1",nativeQuery = true)
     List<Artifact> findAllArtifact(Integer user_id);
