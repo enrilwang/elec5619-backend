@@ -44,6 +44,13 @@ public class FrontPageController {
             }
         }
 
+        //Return 6 objects to frontend
+        if (allPublicWorks.size() > 6) {
+            for (int i = 6; i < allPublicWorks.size(); i++) {
+                allPublicWorks.remove(i);
+            }
+        }
+
         result.setCode(0);
         result.setMsg("Query success!");
         //randomly shuffle information
