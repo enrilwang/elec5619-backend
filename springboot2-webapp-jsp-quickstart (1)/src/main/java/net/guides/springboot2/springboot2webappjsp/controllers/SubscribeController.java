@@ -93,8 +93,14 @@ public class SubscribeController {
             return result;
         }
         
-        if (month < 0) {
+        if (month < 1) {
             result.setMsg("Month number shoud be a positive integer.");
+            result.setCode(1);
+            return result;
+        }
+        
+        if (month > 100) {
+            result.setMsg("Are you sure to subscribe a century?");
             result.setCode(1);
             return result;
         }
