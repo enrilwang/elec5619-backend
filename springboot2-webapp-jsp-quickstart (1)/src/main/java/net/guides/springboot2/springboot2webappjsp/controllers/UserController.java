@@ -96,9 +96,9 @@ public class UserController {
 	@CrossOrigin
 	public Result getUserById(HttpServletRequest request, @RequestParam Integer id) {
 		Result result = new Result();
-
-		String email = JwtUtil.getUserEmailByToken(request);
-		if (email == null) {
+		String token = request.getHeader("Authorization");
+		System.out.println("Token now is : " + token);
+		if (token == null || token.equals("token is expired")) {
 
 			User user;
 			try {
@@ -126,6 +126,7 @@ public class UserController {
 			result.setData(res);
 			return result;
 		}else {
+			String email = JwtUtil.getUserEmailByToken(request);
 			User currentUser = userRepo.getUserByEmail(email);
 			User user;
 			try {

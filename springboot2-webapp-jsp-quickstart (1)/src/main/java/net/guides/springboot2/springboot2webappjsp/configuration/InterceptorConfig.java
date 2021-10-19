@@ -20,7 +20,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/login")
                 .excludePathPatterns("/register")
                 .excludePathPatterns("/startCaptcha")
-                .excludePathPatterns("/searchName","/userlogout","/post/**","/profilePicture/**");
+                .excludePathPatterns("/getUserById","/searchName","/userlogout","/post/**","/profilePicture/**","/frontpage","/getAllArtifactById");
 //                .excludePathPatterns("/getUserInfo");
     }
 
