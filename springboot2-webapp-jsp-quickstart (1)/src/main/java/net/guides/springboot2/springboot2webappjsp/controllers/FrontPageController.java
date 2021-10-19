@@ -34,8 +34,10 @@ public class FrontPageController {
             Map<String, Object> newMap = new HashMap<>(allPublicWorks.get(0));
             //find user by user_id
             User user = this.userRepo.getUserById((Integer) newMap.get("user_id"));
-            //replace user_id with username
-            newMap.replace("user_id", user.getUsername());
+            //replace user_id with username, add user profile picture location
+            newMap.remove("user_id");
+            newMap.put("username", user.getUsername());
+            newMap.put("profile_pic_store", user.getProfilePicStore());
             //add new map record
             allPublicWorks.add(newMap);
             //remove original map record
@@ -52,10 +54,10 @@ public class FrontPageController {
         //remove duplicate creators
         List<Map<String, Object>> tempDuplicate = new ArrayList<>();
         for (Map<String, Object> publicWork : allPublicWorks) {
-            String name = publicWork.get("user_id").toString();
+            String name = publicWork.get("username").toString();
             int count = 0;
             for (Map<String, Object> temp : allPublicWorks) {
-                if (temp.get("user_id").equals(name)) {
+                if (temp.get("username").equals(name)) {
                     count++;
                 }
             }
