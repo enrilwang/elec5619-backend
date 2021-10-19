@@ -130,7 +130,7 @@ public class SubscribeController {
         System.out.println(userQueryResult.getId());
         System.out.println(userQueryResult.getAccountBalance());
         System.out.println(price);
-        if (userQueryResult.getAccountBalance()<0||userQueryResult.getAccountBalance() < price*month) {
+        if (userQueryResult.getAccountBalance() < price*month) {
             result.setMsg("Account balance is not enough.");
             result.setCode(1);
             return result;
