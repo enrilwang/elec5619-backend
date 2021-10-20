@@ -44,12 +44,14 @@ public class FrontPageController {
             allPublicWorks.remove(allPublicWorks.get(0));
         }
 
+        /*
         //remove all the general article
         for (int i = 0; i < allPublicWorks.size(); i++) {
             if (allPublicWorks.get(i).get("category_name").equals("General")) {
                 allPublicWorks.remove(allPublicWorks.get(i));
             }
         }
+         */
 
         //remove duplicate creators
         List<Map<String, Object>> tempDuplicate = new ArrayList<>();
@@ -68,10 +70,21 @@ public class FrontPageController {
             }
         }
 
+        //add records in duplicate creators
         if (tempDuplicate.size() > 0) {
             //randomly choose one record
             Collections.shuffle(tempDuplicate);
-            modifyWorks.add(tempDuplicate.get(0));
+            for (Map<String, Object> temp : tempDuplicate) {
+                int count = 0;
+                for (Map<String, Object> original : modifyWorks) {
+                    if (original.get("user_id") == temp.get("user_id")) {
+                        count++;
+                    }
+                }
+                if (count < 1) {
+                    modifyWorks.add(temp);
+                }
+            }
         }
 
         //return 6 objects to frontend
