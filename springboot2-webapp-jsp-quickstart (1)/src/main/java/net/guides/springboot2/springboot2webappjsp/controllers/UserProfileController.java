@@ -168,7 +168,7 @@ public class UserProfileController {
         List<User> favouriteList = new ArrayList<>();
         List<User> users = userRepo.findAll();
 
-        String now = existUser.getSubscribeId();
+        String now = existUser.getFavoriteId();
         now  = now.substring(1,now.length()-1);
         if (now != null) {
             String[] str = now.split(", ");
@@ -179,6 +179,8 @@ public class UserProfileController {
             for (Integer id : ids) {
                 for (User user : users) {
                     if (id == user.getId()) {
+                        System.out.println("id is " + id);
+                        System.out.println("user: " + user.getId());
                         favouriteList.add(user);
                         break;
                     }
