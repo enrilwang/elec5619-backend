@@ -35,7 +35,7 @@ public class FrontPageController {
             //find user by user_id
             User user = this.userRepo.getUserById((Integer) newMap.get("user_id"));
             //replace user_id with username, add user profile picture location
-            newMap.remove("user_id");
+            //newMap.remove("user_id");
             newMap.put("username", user.getUsername());
             newMap.put("profile_pic_store", user.getProfilePicStore());
             //add new map record
