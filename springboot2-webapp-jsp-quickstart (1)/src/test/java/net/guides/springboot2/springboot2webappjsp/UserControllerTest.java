@@ -31,20 +31,12 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import org.springframework.util.DigestUtils;
-import org.springframework.web.context.WebApplicationContext;
-
-import javax.transaction.Transactional;
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.mockito.Mockito.spy;
 
 @AutoConfigureMockMvc
 public class UserControllerTest extends BaseTest{
 
-    @Autowired
-    private UserController uc;
+
 
     @Autowired
     private MockMvc mockMvc;
@@ -54,8 +46,6 @@ public class UserControllerTest extends BaseTest{
     @MockBean
     private UserRepository userRepository;
 
-//    @Mock
-//    private GeetestLib gtSdk = spy(new GeetestLib("","",true));
 
 
     @Before

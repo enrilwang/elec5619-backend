@@ -3,6 +3,7 @@ package net.guides.springboot2.springboot2webappjsp.controllers;
 import javax.servlet.http.HttpServletResponse;
 
 public class Result {
+//    code 1:success, 0:failed
     private int code;
     private String msg;
     private Object data;

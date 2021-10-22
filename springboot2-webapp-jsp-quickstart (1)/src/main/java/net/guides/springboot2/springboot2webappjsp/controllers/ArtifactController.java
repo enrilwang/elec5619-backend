@@ -154,8 +154,8 @@ public class ArtifactController {
             //method for file upload
             FileUploader fileUploader = new FileUploader();
 
-            //String storePath = "C:/Users/ASUS/Desktop/elec5619-backend/springboot2-webapp-jsp-quickstart (1)/src/main/resources/resources/post";
-            String storePath = "C:/Users/Ning/IdeaProjects/elec5619-backend/springboot2-webapp-jsp-quickstart (1)/src/main/resources/resources/post";
+            String storePath = "C:/Users/ASUS/Desktop/elec5619-backend/springboot2-webapp-jsp-quickstart (1)/src/main/resources/resources/post";
+//            String storePath = "C:/Users/Ning/IdeaProjects/elec5619-backend/springboot2-webapp-jsp-quickstart (1)/src/main/resources/resources/post";
 
             String path = fileUploader.fileUpload(file,storePath);
 

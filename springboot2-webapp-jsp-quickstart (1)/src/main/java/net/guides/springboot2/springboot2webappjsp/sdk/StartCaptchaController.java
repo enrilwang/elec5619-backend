@@ -25,9 +25,9 @@ import org.springframework.web.bind.annotation.RestController;
             String userid = "test";
 
             HashMap<String, String> param = new HashMap<String, String>();
-            param.put("user_id", userid); //网站用户id
-            param.put("client_type", "web"); //web:电脑上的浏览器；h5:手机上的浏览器，包括移动应用内完全内置的web_view；native：通过原生SDK植入APP应用的方式
-            param.put("ip_address", "127.0.0.1"); //传输用户请求验证时所携带的IP
+            param.put("user_id", userid);
+            param.put("client_type", "web");
+            param.put("ip_address", "127.0.0.1");
             param.put("digestmod", "md5");
 
             int gtServerStatus = gtSdk.preProcess(param);

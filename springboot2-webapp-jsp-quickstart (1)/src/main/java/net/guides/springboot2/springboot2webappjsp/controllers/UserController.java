@@ -97,7 +97,7 @@ public class UserController {
 	public Result getUserById(HttpServletRequest request, @RequestParam Integer id) {
 		Result result = new Result();
 		String token = request.getHeader("Authorization");
-		System.out.println("Token now is : " + token);
+
 		if (token == null || token.equals("token is expired")) {
 
 			User user;

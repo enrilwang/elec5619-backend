@@ -2,7 +2,6 @@ package net.guides.springboot2.springboot2webappjsp.controllers;
 
 import net.guides.springboot2.springboot2webappjsp.configuration.JwtUtil;
 import net.guides.springboot2.springboot2webappjsp.domain.Artifact;
-import net.guides.springboot2.springboot2webappjsp.domain.Category;
 import net.guides.springboot2.springboot2webappjsp.domain.User;
 import net.guides.springboot2.springboot2webappjsp.repositories.ArtifactRepository;
 import net.guides.springboot2.springboot2webappjsp.repositories.UserRepository;
@@ -57,16 +56,16 @@ public class UserProfileController {
     public Result changeRole(HttpServletRequest request) {
         Result result = new Result();
 
-            String email = JwtUtil.getUserEmailByToken(request);
-            User existUser = userRepo.getUserByEmail(email);
+        String email = JwtUtil.getUserEmailByToken(request);
+        User existUser = userRepo.getUserByEmail(email);
 
-            if (existUser.getIsCreator().equals("user")) existUser.setIsCreator("creator");
-            else existUser.setIsCreator("user");
+        if (existUser.getIsCreator().equals("user")) existUser.setIsCreator("creator");
+        else existUser.setIsCreator("user");
 
-            userRepo.save(existUser);
-            result.setMsg("change role successfully");
-            result.setCode(0);
-            return result;
+        userRepo.save(existUser);
+        result.setMsg("change role successfully");
+        result.setCode(0);
+        return result;
 
 
     }
@@ -193,11 +192,6 @@ public class UserProfileController {
             List<Artifact> art = artifactRepository.findAllArtifact(s.getId());
             res1.add(art);
         }
-
-//        HashMap<User, List<Artifact>> go = new HashMap<>();
-//        for (int i = 0; i < res1.size();i++) {
-//            go.put(favouriteList.get(i), res1.get(i));
-//        }
 
 
         result.setMsg("OK");
