@@ -28,4 +28,8 @@ public class Subscribe {
     private int userId;
     private String timeStart;
     private String timeEnd;
+    
+    public Subscribe copy(){
+        return new Subscribe(this.subscribeId,this.activated,this.creatorId,this.paymentsSerialId,this.subscribeType,this.subscriptionTypeId,this.userId,this.timeStart,this.timeEnd);
+    }
 }
