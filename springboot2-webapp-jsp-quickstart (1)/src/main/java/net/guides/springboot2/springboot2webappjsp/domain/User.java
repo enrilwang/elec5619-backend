@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.time.Instant;
 import java.util.Set;
 
+@AllArgsConstructor
 @Table(name = "user")
 @Entity
 public class User {
@@ -153,6 +154,10 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+    
+    public User copy(){
+        return new User(this.id,this.username,this.password,this.registerTime,this.description,this.email,this.accountBalance,this.profilePicStore,this.isAdmin,this.isCreator,this.favoriteId,this.subscribeId,this.artifacts);
     }
 
 }
