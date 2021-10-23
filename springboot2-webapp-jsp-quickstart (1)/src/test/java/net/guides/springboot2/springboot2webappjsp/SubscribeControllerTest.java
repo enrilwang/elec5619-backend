@@ -821,7 +821,7 @@ public class SubscribeControllerTest {
     }
 
     @Test
-    public void test27GetByUserIdNotSet() throws Exception {
+    public void test28GetByUserIdNotSet() throws Exception {
         //Mock Request
         RequestBuilder request = MockMvcRequestBuilders.get(subscribePath)
                 .param("userId", "")
@@ -843,7 +843,7 @@ public class SubscribeControllerTest {
     }
 
     @Test
-    public void test28GetByUserIdChar() throws Exception {
+    public void test29GetByUserIdChar() throws Exception {
         //Mock Request
         RequestBuilder request = MockMvcRequestBuilders.get(subscribePath)
                 .param("userId", "LA")
@@ -857,7 +857,7 @@ public class SubscribeControllerTest {
     }
 
     @Test
-    public void test29GetByUserIdSetZero() throws Exception {
+    public void test30GetByUserIdSetZero() throws Exception {
         //Mock Request
         RequestBuilder request = MockMvcRequestBuilders.get(subscribePath)
                 .param("userId", "0")
@@ -871,7 +871,7 @@ public class SubscribeControllerTest {
     }
 
     @Test
-    public void test30GetByUserIdNegative() throws Exception {
+    public void test31GetByUserIdNegative() throws Exception {
         //Mock Request
         RequestBuilder request = MockMvcRequestBuilders.get(subscribePath)
                 .param("userId", "-1")
@@ -892,7 +892,7 @@ public class SubscribeControllerTest {
     }
 
     @Test
-    public void test31GetByUserIdNotExisted() throws Exception {
+    public void test32GetByUserIdNotExisted() throws Exception {
         //Mock Request
         RequestBuilder request = MockMvcRequestBuilders.get(subscribePath)
                 .param("userId", "100")
@@ -913,7 +913,7 @@ public class SubscribeControllerTest {
     }
 
     @Test
-    public void test32GetByUserIdSuccess() throws Exception {
+    public void test33GetByUserIdSuccess() throws Exception {
         //Mock Request
         RequestBuilder request = MockMvcRequestBuilders.get(subscribePath)
                 .param("userId", "1")
@@ -951,7 +951,7 @@ public class SubscribeControllerTest {
 
     //Post and Get
     @Test
-    public void test33PostGetCombine() throws Exception {
+    public void test34PostGetCombine() throws Exception {
         //Get First
         //Mock Request
         RequestBuilder request = MockMvcRequestBuilders.get(subscribePath)
@@ -1050,7 +1050,7 @@ public class SubscribeControllerTest {
 
     //Delete Single
     @Test
-    public void test34DeleteNoParam() throws Exception {
+    public void test35DeleteNoParam() throws Exception {
         //Mock Request
         RequestBuilder request = MockMvcRequestBuilders.delete(subscribePath)
                 .header("Authorization", this.auth)
@@ -1064,7 +1064,7 @@ public class SubscribeControllerTest {
     }
 
     @Test
-    public void test35DeleteCreatorIdNotSet() throws Exception {
+    public void test36DeleteCreatorIdNotSet() throws Exception {
         //Mock Request
         RequestBuilder request = MockMvcRequestBuilders.delete(subscribePath)
                 .param("creatorId","")
@@ -1078,7 +1078,7 @@ public class SubscribeControllerTest {
     }
 
     @Test
-    public void test36DeleteCreatorIdChar() throws Exception {
+    public void test37DeleteCreatorIdChar() throws Exception {
         //Mock Request
         RequestBuilder request = MockMvcRequestBuilders.delete(subscribePath)
                 .param("creatorId","LA")
@@ -1092,7 +1092,7 @@ public class SubscribeControllerTest {
     }
 
     @Test
-    public void test37DeleteCreatorIdNegative() throws Exception {
+    public void test38DeleteCreatorIdNegative() throws Exception {
         //Mock Request
         RequestBuilder request = MockMvcRequestBuilders.delete(subscribePath)
                 .param("creatorId","-1")
@@ -1113,7 +1113,7 @@ public class SubscribeControllerTest {
     }
 
     @Test
-    public void test38DeleteCreatorIdNotExisted() throws Exception {
+    public void test39DeleteCreatorIdNotExisted() throws Exception {
         //Mock Request
         RequestBuilder request = MockMvcRequestBuilders.delete(subscribePath)
                 .param("creatorId","100")
@@ -1134,7 +1134,7 @@ public class SubscribeControllerTest {
     }
 
     @Test
-    public void test39DeleteCreatorIdUser() throws Exception {
+    public void test40DeleteCreatorIdUser() throws Exception {
         //Mock Request
         RequestBuilder request = MockMvcRequestBuilders.delete(subscribePath)
                 .param("creatorId","1")
@@ -1155,7 +1155,7 @@ public class SubscribeControllerTest {
     }
 
     @Test
-    public void test40DeleteCreatorIdSuccess() throws Exception {
+    public void test41DeleteCreatorIdSuccess() throws Exception {
         //Mock Request
         RequestBuilder request = MockMvcRequestBuilders.delete(subscribePath)
                 .param("creatorId","2")
@@ -1186,7 +1186,7 @@ public class SubscribeControllerTest {
 
     //Post Get & Delete Combine Test
     @Test
-    public void test41PostGetDeleteCombine() throws Exception {
+    public void test42PostGetDeleteCombine() throws Exception {
         //Get First
         //Mock Request
         RequestBuilder requestGet = MockMvcRequestBuilders.get(subscribePath)

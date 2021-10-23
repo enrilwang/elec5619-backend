@@ -23,7 +23,7 @@ public class Subscribe {
     private boolean activated;
     private int creatorId;
     private int paymentsSerialId;//??
-    private int subscribeType;//only 0, 1, 2
+    private Integer subscribeType;//only 0, 1, 2
     private int subscriptionTypeId;
     private int userId;
     private String timeStart;

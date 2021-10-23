@@ -68,7 +68,7 @@ public class User {
         return id;
     }
     public void setId(Integer id) {
-        id = id;
+        this.id = id;
     }
 
 

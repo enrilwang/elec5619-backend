@@ -70,7 +70,7 @@ public class SubscribeController {
         }
 
         //check period
-        if (subscribe.getSubscribeType() > 2 || subscribe.getSubscribeType() < 0) {
+        if (subscribe.getSubscribeType()==null||subscribe.getSubscribeType() > 2 || subscribe.getSubscribeType() < 0) {
             result.setMsg("Subscription type is not existed.");
             result.setCode(1);
             return result;
