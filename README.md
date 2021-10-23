@@ -13,6 +13,13 @@
 
 
 ## List all working functionalities of the project-
+### User authentication
+- After user login, this user will get a token. We will use this token to verify this user
+- When user want to login, Users need to click on the slider verification code first which given by GEETEST (external API)
+- When user in the login page, there will have encouraged word randomly produced given by external API 
+
+
+
 ### User
 - User can register, login and logout
 - User can change the role to creator
