@@ -33,6 +33,16 @@
 #### Creator
 - Creator can change the role to user
 
+### Subscription
+
+#### Subscribe
+- Logged in users can manage their subscription
+They can make a new subscription if they have no subscription history or their past subscriptions expired (not activated). They can specify the subscription details on the corresponding page. Or, they have to deactivate the current one and subscribe to a new one. They will keep the current tier level until the related subscription expires. Then their subscription levels will switch to a new one.
+
+#### Subscribe Type
+- Logged in creators can manage their subscription price
+Creators have a web page to display their subscription price. All prices will be updated at the same time.
+
 
 
 ## A quick guide on how to run your application
