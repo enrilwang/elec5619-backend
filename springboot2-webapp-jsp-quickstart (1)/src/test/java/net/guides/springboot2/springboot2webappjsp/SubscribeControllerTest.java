@@ -16,7 +16,6 @@ import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.mockito.Mockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -50,7 +49,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @EnableWebMvc
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @MockBeans({@MockBean(UserRepository.class), @MockBean(SubscribeRepository.class), @MockBean(SubscriptionTypeRepository.class), @MockBean(SubscriptionTypeRepository.class)})
-@PrepareForTest({JwtUtil.class})
+
 public class SubscribeControllerTest {
 
     @Autowired
