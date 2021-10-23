@@ -43,5 +43,5 @@ The server will be run on localhost:8080
 ### Backend
 We use SpringBoot in the backend, firstly, we need to download the project backend code and run it in the IDE (can use intellji or eclipse) using maven. The server will be run on localhost:8080/api
 
-## After running frontend and backend, we can open website localhost:8080 and now we are using this website
+### After running frontend and backend, we can open website localhost:8080 and now we are using this website
 
