@@ -9,7 +9,7 @@ List all used libraries and their versions
 
 2.org.mockito
   mockito-core
-  version: 2.22.0
+  version: 2.23.4
       
 3.com.vaadin.external.google
   android-json
@@ -21,5 +21,10 @@ List all used libraries and their versions
 
 
 -List all working functionalities of the project-
+
+
+
+
+
 A quick guide on how to run your application
 
