@@ -20,13 +20,13 @@
 
 #### User
 - User can register, login and logout
-- User can change the role to creator
+- User can change the role to a creator
 - User can change the profile picture
 - User can follow other creator
-- User can search name of creator
+- User can search the name of a creator
 - User can click creator picture and see the creator page
-- User can unfollow other creator
-- User can subscribe some creators
+- User can unfollow other creators
+- Users can subscribe to some creators
 
 
 
