@@ -31,20 +31,13 @@ public class UserProfileController {
         String email = JwtUtil.getUserEmailByToken(request);
         User existUser = userRepo.getUserByEmail(email);
 
-        if (existUser == null) {
-            result.setMsg("wrong email address!");
-            result.setCode(1);
-            return result;
-        }
-        else {
+        existUser.setPassword(DigestUtils.md5DigestAsHex(user.getPassword() .getBytes()));
+        existUser.setName(user.getUsername());
+        userRepo.save(existUser);
+        result.setMsg("change name and password successfully");
+        result.setCode(0);
+        return result;
 
-            existUser.setPassword(DigestUtils.md5DigestAsHex(user.getPassword() .getBytes()));
-            existUser.setName(user.getUsername());
-            userRepo.save(existUser);
-            result.setMsg("change name and password successfully");
-            result.setCode(0);
-            return result;
-        }
 
 
     }
@@ -87,7 +80,7 @@ public class UserProfileController {
             String pass = user1.getPassword();
             boolean ans = JwtUtil.verify(token,email,pass);
             if(ans){
-
+                result.setMsg("get okay");
                 result.setCode(0);
                 HashMap<String,String> map = new HashMap<>();
                 map.put("role",user1.getIsCreator());
@@ -178,8 +171,6 @@ public class UserProfileController {
             for (Integer id : ids) {
                 for (User user : users) {
                     if (id == user.getId()) {
-                        System.out.println("id is " + id);
-                        System.out.println("user: " + user.getId());
                         favouriteList.add(user);
                         break;
                     }
@@ -269,7 +260,7 @@ public class UserProfileController {
     //delete favourite
     @RequestMapping(value = "deleteFavouriteList", method = RequestMethod.POST)
     @CrossOrigin
-    public Result deleteFavouriteList(HttpServletRequest request,@RequestParam String favouriteUserId) {
+    public Result deleteFavouriteId(HttpServletRequest request,@RequestParam String favouriteUserId) {
         Result result = new Result();
         String email = JwtUtil.getUserEmailByToken(request);
         User existUser = userRepo.getUserByEmail(email);

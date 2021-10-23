@@ -1,5 +1,7 @@
 package net.guides.springboot2.springboot2webappjsp.domain;
 
+import lombok.AllArgsConstructor;
+
 import javax.persistence.*;
 import java.time.Instant;
 import java.util.Set;
@@ -65,7 +67,9 @@ public class User {
     public Integer getId() {
         return id;
     }
-
+    public void setId(Integer id) {
+        id = id;
+    }
 
 
     public String getSubscribeId() {

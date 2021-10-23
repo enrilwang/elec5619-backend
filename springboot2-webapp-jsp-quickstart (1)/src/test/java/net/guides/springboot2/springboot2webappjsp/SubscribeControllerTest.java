@@ -51,7 +51,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @MockBeans({@MockBean(UserRepository.class), @MockBean(SubscribeRepository.class), @MockBean(SubscriptionTypeRepository.class), @MockBean(SubscriptionTypeRepository.class)})
 @PrepareForTest({JwtUtil.class})
-public class SubscribeControllerTest extends BaseTest {
+public class SubscribeControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

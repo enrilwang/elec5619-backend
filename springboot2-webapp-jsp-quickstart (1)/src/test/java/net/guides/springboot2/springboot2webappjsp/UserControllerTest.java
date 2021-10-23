@@ -1,43 +1,40 @@
 package net.guides.springboot2.springboot2webappjsp;
 
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.guides.springboot2.springboot2webappjsp.controllers.UserController;
 import net.guides.springboot2.springboot2webappjsp.domain.User;
 import net.guides.springboot2.springboot2webappjsp.repositories.UserRepository;
-import net.guides.springboot2.springboot2webappjsp.sdk.GeetestConfig;
-import net.guides.springboot2.springboot2webappjsp.sdk.GeetestLib;
-import org.junit.After;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
 import org.springframework.util.DigestUtils;
 import java.io.UnsupportedEncodingException;
 
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@WebAppConfiguration
 @AutoConfigureMockMvc
-public class UserControllerTest extends BaseTest{
+public class UserControllerTest {
 
 
-
+    @Autowired
+    private UserRepository ur;
     @Autowired
     private MockMvc mockMvc;
     @Autowired
@@ -56,6 +53,7 @@ public class UserControllerTest extends BaseTest{
         user.setPassword("543666");
         Mockito.when(userRepository.save(user)).thenReturn(user);
         Mockito.when(userRepository.getUserByEmail(user.getEmail())).thenReturn(user);
+
 
 
     }
@@ -288,6 +286,68 @@ public class UserControllerTest extends BaseTest{
 
 
     }
+
+
+
+
+
+    @Test
+    public void testSearchNameCorrect() throws Exception{
+        User user = new User();
+        user.setEmail("1133333@qq.com");
+        user.setUsername("TOM");
+        user.setPassword("543666");
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/searchName").param("name","e").contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsString(user));
+
+        MvcResult result = mockMvc.perform(mockRequest).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+        String[] ans = response.getContentAsString().split(",");
+        Assert.assertEquals("\"msg\":\"OK\"", ans[1] );
+
+
+    }
+
+
+    @Test
+    public void testGetUserByIdCorrect() throws Exception{
+
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.get("/getUserById").param("id","1").contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(mockRequest).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+        String[] ans = response.getContentAsString().split(",");
+        Assert.assertEquals("\"msg\":\"get successful\"", ans[1] );
+    }
+
+
+
+    @Test
+    public void testGetAllArtifactByIdCorrect() throws Exception{
+
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.get("/getAllArtifactById").param("id","1").contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(mockRequest).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+        String[] ans = response.getContentAsString().split(",");
+        Assert.assertEquals("\"msg\":\"Query success!\"", ans[1] );
+    }
+
+
+    @Test
+    public void testGetAllArtifactByIdIncorrect() throws Exception{
+
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.get("/getAllArtifactById").param("id","11111").contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(mockRequest).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+        String[] ans = response.getContentAsString().split(",");
+        Assert.assertEquals("\"msg\":\"No work exist!\"", ans[1] );
+    }
+
+
+
+
+
 
 
 }
