@@ -1,4 +1,4 @@
-# elec5619-backend
+# ELEC5619-project
 
 ## Used libraries and their versions
 
@@ -13,7 +13,7 @@
 | org.springframework.boot                               | 2.0.4                |
 
 
-## Working functionalities of the project-
+## Working functionalities of the project
 
 ### User
 #### User authentication
