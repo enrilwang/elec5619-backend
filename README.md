@@ -31,9 +31,12 @@
 - Users can subscribe to some creators
 
 
-
 #### Creator
 - Creator can change the role to user
+- Creator can upload their works
+- Creator can delete their works
+- Creator can edit their works
+- Creator can choose the category of their work
 
 ### Subscription
 
