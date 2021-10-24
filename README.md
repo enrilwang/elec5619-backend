@@ -8,7 +8,7 @@
 | com.vaadin.external.google : android-json              | 0.0.20131108.vaadin1 |
 | junit-team / junit4 junit : junit                      |                      |
 | mysql / mysql-connector-j mysql : mysql-connector-java |                      |
-| org.apache.tomcat.embed : tomcat-embed-jasper          |                      |
+| projectlombok / lombok org.projectlombok:lombok        |                      |
 | mockito / mockito org.mockito:mockito-core             | 2.23.4               |
 | org.springframework.boot                               | 2.0.4                |
 
