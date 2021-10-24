@@ -2,14 +2,15 @@
 
 ## List all used libraries and their versions
 
-1. com.auth0 java-jwt version: 3.8.2
-
-
-2. org.mockito mockito-core version: 2.23.4
-      
-3. com.vaadin.external.google android-json version: 0.0.20131108.vaadin1
-
-4. com.vaadin.external.google android-json version: 0.0.20131108.vaadin1
+| Dependency                                             | Version              |
+| ------------------------------------------------------ | -------------------- |
+| auth0 / java-jwt com.auth0 : java-jwt                  | 3.8.2                |
+| com.vaadin.external.google : android-json              | 0.0.20131108.vaadin1 |
+| junit-team / junit4 junit : junit                      |                      |
+| mysql / mysql-connector-j mysql : mysql-connector-java |                      |
+| org.apache.tomcat.embed : tomcat-embed-jasper          |                      |
+| mockito / mockito org.mockito:mockito-core             | 2.23.4               |
+| org.springframework.boot                               | 2.0.4                |
 
 
 ## List all working functionalities of the project-
