@@ -13,12 +13,14 @@
 
 
 ## List all working functionalities of the project-
+
+### User
 #### User authentication
 - After user login, this user will get a token. We will use this token to verify this user
 - When user want to login, Users need to click on the slider verification code first which given by GEETEST (external API)
 
 
-#### User
+#### Normal user
 - User can register, login and logout
 - User can change the role to a creator
 - User can change the profile picture
