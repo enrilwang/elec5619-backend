@@ -1,6 +1,6 @@
 # elec5619-backend
 
-## List all used libraries and their versions
+## Used libraries and their versions
 
 | Dependency                                             | Version              |
 | ------------------------------------------------------ | -------------------- |
@@ -13,7 +13,7 @@
 | org.springframework.boot                               | 2.0.4                |
 
 
-## List all working functionalities of the project-
+## Working functionalities of the project-
 
 ### User
 #### User authentication
@@ -30,6 +30,7 @@
 - User can click creator picture and see the creator page
 - User can unfollow other creators
 - Users can subscribe to some creators
+- Users who enter the frontpage can see six randomly recommended creators and their works
 
 
 #### Creator
@@ -49,7 +50,7 @@
 
 
 
-## A quick guide on how to run your application
+## A quick guide on how to run our application
 #### Frontend:
 We use Vue.js as presentation layer, in order to compile and run the project successfully, you should make sure the **NPM** has been installed successfully in your computer.
 
