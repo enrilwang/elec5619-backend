@@ -193,12 +193,13 @@ public class ArtifactController {
     }
 
     //method for edit work
-    @PutMapping("/edit/{work_id}")
+    @PostMapping("/edit/{work_id}")
     public Result updateArtifact(
             @PathVariable(value = "work_id") Integer work_id,
             @RequestParam Integer weight,
             @RequestParam String title,
-            @RequestParam(required = false) String description) {
+            @RequestParam(required = false) String description,
+            @RequestParam String category_name) {
         try {
             Artifact artifact = this.artifactRepo.findArtifactByArtifactId(work_id);
             if (artifact == null) {
@@ -208,9 +209,14 @@ public class ArtifactController {
                 if (StringUtils.isEmpty(title)) {
                     return new Result(1,"Title can't be empty!");
                 } else if (StringUtils.isEmpty(description)) {
+
+                    Optional<Category> categories = categoryRepo.findById(category_name);
+                    Category c = categories.get();
+
                     artifact.setTitle(title);
                     artifact.setDescription(null);
                     artifact.setArtifactWeights(weight);
+                    artifact.setCategoryName(c);
 
                     //validate
                     Artifact temp = this.artifactRepo.findArtifactByArtifactId(work_id);
@@ -219,7 +225,7 @@ public class ArtifactController {
                             && Objects.equals(temp.getArtifactWeights(), weight)) {
                         return new Result(0, "Update success!");
                     } else {
-                        return new Result(1, "Update fail!");
+                        return new Result(1, "Update failed!");
                     }
 
                 } else {
@@ -231,6 +237,10 @@ public class ArtifactController {
                         //do nothing
                         return new Result(1,"Nothing changed!");
                     } else {
+
+                        Optional<Category> categories = categoryRepo.findById(category_name);
+
+                        artifact.setCategoryName(categories.get());
                         artifact.setTitle(title);
                         artifact.setDescription(description);
                         artifact.setArtifactWeights(weight);
