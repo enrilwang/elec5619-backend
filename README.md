@@ -1,18 +1,19 @@
-# elec5619-backend
+# ELEC5619-project
 
-## List all used libraries and their versions
+## Used libraries and their versions
 
-1. com.auth0 java-jwt version: 3.8.2
+| Dependency                                             | Version              |
+| ------------------------------------------------------ | -------------------- |
+| auth0 / java-jwt com.auth0 : java-jwt                  | 3.8.2                |
+| com.vaadin.external.google : android-json              | 0.0.20131108.vaadin1 |
+| junit-team / junit4 junit : junit                      |                      |
+| mysql / mysql-connector-j mysql : mysql-connector-java |                      |
+| projectlombok / lombok org.projectlombok:lombok        |                      |
+| mockito / mockito org.mockito:mockito-core             | 2.23.4               |
+| org.springframework.boot                               | 2.0.4                |
 
 
-2. org.mockito mockito-core version: 2.23.4
-      
-3. com.vaadin.external.google android-json version: 0.0.20131108.vaadin1
-
-4. com.vaadin.external.google android-json version: 0.0.20131108.vaadin1
-
-
-## List all working functionalities of the project-
+## Working functionalities of the project
 
 ### User
 #### User authentication
@@ -29,11 +30,15 @@
 - User can click creator picture and see the creator page
 - User can unfollow other creators
 - Users can subscribe to some creators
-
+- Users who enter the frontpage can see six randomly recommended creators and their works
 
 
 #### Creator
 - Creator can change the role to user
+- Creator can upload their works
+- Creator can delete their works
+- Creator can edit their works
+- Creator can choose the category of their work
 
 ### Subscription
 
@@ -45,7 +50,7 @@
 
 
 
-## A quick guide on how to run your application
+## A quick guide on how to run our application
 #### Frontend:
 We use Vue.js as presentation layer, in order to compile and run the project successfully, you should make sure the **NPM** has been installed successfully in your computer.
 
