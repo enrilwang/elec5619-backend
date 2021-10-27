@@ -111,11 +111,11 @@ public class SubscribeController {
         }
 
         //check account balance
-        if (userQueryResult.getAccountBalance() < price*month) {
-            result.setMsg("Account balance is not enough.");
-            result.setCode(1);
-            return result;
-        }
+//        if (userQueryResult.getAccountBalance() < price*month) {
+//            result.setMsg("Account balance is not enough.");
+//            result.setCode(1);
+//            return result;
+//        }
 
         //start subscribe
         List<Subscribe> subscribeFalseQueryResult = subscribeRepo.getSubscribeByUserIdAndCreatorIdAndActivated(userQueryResult.getId(), subscribe.getCreatorId(), false);

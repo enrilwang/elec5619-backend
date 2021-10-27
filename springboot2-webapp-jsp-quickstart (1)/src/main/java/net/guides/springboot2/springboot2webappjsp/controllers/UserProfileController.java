@@ -127,9 +127,9 @@ public class UserProfileController {
 
         //method for file upload
         FileUploader fileUploader = new FileUploader();
-        String path = fileUploader.fileUpload(file,"C:/Users/ASUS/Desktop/elec5619-backend/springboot2-webapp-jsp-quickstart (1)/src/main/resources/resources/profilePicture");
+        String path = fileUploader.fileUpload(file,"/Users/tyson/Desktop/2021 S2/ELEC5619/elec5619-backend/springboot2-webapp-jsp-quickstart (1)/src/main/resources/resources/profilePicture");
 
-        String[] gg = path.split("\\\\");
+        String[] gg = path.split("/");
         String last = gg[gg.length-1];
         String newPath = "/api/profilePicture/" + last.substring(0,last.length()/2);
 
@@ -161,6 +161,12 @@ public class UserProfileController {
         List<User> users = userRepo.findAll();
 
         String now = existUser.getFavoriteId();
+        if (now == null) {
+            result.setMsg("Empty list");
+            result.setCode(0);
+            return result;
+        }
+
         now  = now.substring(1,now.length()-1);
         if (now != null) {
             String[] str = now.split(", ");
@@ -213,6 +219,11 @@ public class UserProfileController {
 
 
             String now = existUser.getSubscribeId();
+            if (now == null) {
+                result.setMsg("Empty list");
+                result.setCode(0);
+                return result;
+            }
             now  = now.substring(1,now.length()-1);
 
 

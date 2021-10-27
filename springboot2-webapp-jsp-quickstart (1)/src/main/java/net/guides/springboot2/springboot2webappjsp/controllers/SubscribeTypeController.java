@@ -52,22 +52,26 @@ public class SubscribeTypeController {
         Result result=new Result();
         String email = JwtUtil.getUserEmailByToken(request);
         User userQueryResult = userRepo.getUserByEmail(email);
-        SubscriptionType existedSubscriptionTypeQueryResult=subscriptionTypeRepo.getSubscriptionTypeByUserId(userQueryResult.getId());
+        SubscriptionType existedSubscriptionTypeQueryResult = subscriptionTypeRepo.getSubscriptionTypeByUserId(userQueryResult.getId());
         int subscriptionId=0;
+        SubscriptionType saveResult;
         if(existedSubscriptionTypeQueryResult!=null){
-//            result.setMsg("Record existed. Please update instead of update.");
-//            result.setCode(1);
-//            return result;
-            subscriptionId=existedSubscriptionTypeQueryResult.getSubscriptionTypeId();
-        }else{
-            subscriptionType.getSubscriptionTypeId();
+            System.out.println("art ===" + subscriptionType.getArt());
+            existedSubscriptionTypeQueryResult.setArt(subscriptionType.getArt());
+            existedSubscriptionTypeQueryResult.setMusic(subscriptionType.getMusic());
+            existedSubscriptionTypeQueryResult.setPhoto(subscriptionType.getPhoto());
+            saveResult = subscriptionTypeRepo.save(existedSubscriptionTypeQueryResult);
+            // subscriptionId=existedSubscriptionTypeQueryResult.getSubscriptionTypeId();
         }
-        System.out.println("art ===" + subscriptionType.getArt());
-        existedSubscriptionTypeQueryResult.setArt(subscriptionType.getArt());
-        existedSubscriptionTypeQueryResult.setMusic(subscriptionType.getMusic());
-        existedSubscriptionTypeQueryResult.setPhoto(subscriptionType.getPhoto());
+        else{
+            SubscriptionType newSubscribe = new SubscriptionType();
+            newSubscribe.setArt(subscriptionType.getArt());
+            newSubscribe.setMusic(subscriptionType.getMusic());
+            newSubscribe.setPhoto(subscriptionType.getPhoto());
+            newSubscribe.setUserId(userQueryResult.getId());
+            saveResult = subscriptionTypeRepo.save(newSubscribe);
+        }
 
-        SubscriptionType saveResult=subscriptionTypeRepo.save(existedSubscriptionTypeQueryResult);
         if (saveResult==null){
             result.setMsg("add failed");
             result.setCode(1);

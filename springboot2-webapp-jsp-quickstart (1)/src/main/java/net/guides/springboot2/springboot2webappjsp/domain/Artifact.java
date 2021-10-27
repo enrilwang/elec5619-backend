@@ -27,7 +27,7 @@ public class Artifact {
     @NotBlank(message = "Title can't be empty!")
     private String title;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 65535)
     private String description;
 
     //artifact weights represent visibility

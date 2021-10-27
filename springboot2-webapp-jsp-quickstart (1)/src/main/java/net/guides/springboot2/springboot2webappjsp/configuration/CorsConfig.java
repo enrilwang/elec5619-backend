@@ -20,8 +20,8 @@ public class CorsConfig implements WebMvcConfigurer {
     private CorsConfiguration build() {
         CorsConfiguration corsCon = new CorsConfiguration();
         corsCon.setAllowCredentials(true);
-        corsCon.addAllowedOrigin("http://localhost:8080");
-        corsCon.addAllowedOrigin("http://127.0.0.1:8080");
+        corsCon.addAllowedOrigin("http://localhost:8081");
+        corsCon.addAllowedOrigin("http://127.0.0.1:8081");
         corsCon.addAllowedHeader("*");
         corsCon.addAllowedMethod("*");
 //        corsCon.addAllowedMethod("GET");
@@ -41,7 +41,7 @@ public class CorsConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedOrigins("http://localhost:8080","http://127.0.0.1:8080").allowCredentials(true).allowedHeaders(CorsConfiguration.ALL).allowedMethods(CorsConfiguration.ALL);
+        registry.addMapping("/**").allowedOrigins("http://localhost:8081","http://127.0.0.1:8081").allowCredentials(true).allowedHeaders(CorsConfiguration.ALL).allowedMethods(CorsConfiguration.ALL);
     }
 
 }

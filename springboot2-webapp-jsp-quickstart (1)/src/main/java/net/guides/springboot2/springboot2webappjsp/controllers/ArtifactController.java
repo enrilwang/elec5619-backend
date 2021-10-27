@@ -154,12 +154,11 @@ public class ArtifactController {
             //method for file upload
             FileUploader fileUploader = new FileUploader();
 
-            String storePath = "C:/Users/ASUS/Desktop/elec5619-backend/springboot2-webapp-jsp-quickstart (1)/src/main/resources/resources/post";
-//            String storePath = "C:/Users/Ning/IdeaProjects/elec5619-backend/springboot2-webapp-jsp-quickstart (1)/src/main/resources/resources/post";
+            String storePath = "/Users/tyson/Desktop/2021 S2/ELEC5619/elec5619-backend/springboot2-webapp-jsp-quickstart (1)/src/main/resources/resources/post";
 
             String path = fileUploader.fileUpload(file,storePath);
 
-            String[] gg = path.split("\\\\");
+            String[] gg = path.split("/");
             String last = gg[gg.length-1];
             String newPath = "/api/post/" +  last.substring(0,last.length()/2);
 
