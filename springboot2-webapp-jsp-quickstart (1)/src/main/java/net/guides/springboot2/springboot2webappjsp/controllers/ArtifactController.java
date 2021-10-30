@@ -28,12 +28,6 @@ public class ArtifactController {
     @Autowired
     UserRepository userRepo;
 
-    //method for finding all works
-    @GetMapping("/find-all")
-    @CrossOrigin
-    public List<Artifact> getAllWorks() {
-        return this.artifactRepo.findAll();
-    }
 
     //method for finding one creator's works
     //default method
